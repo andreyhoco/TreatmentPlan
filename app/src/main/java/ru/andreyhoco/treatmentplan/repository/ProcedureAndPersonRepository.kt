@@ -2,11 +2,12 @@ package ru.andreyhoco.treatmentplan.repository
 
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Person
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
+import ru.andreyhoco.treatmentplan.repository.modelEntities.ProcedureTimeGroup
 
 interface ProcedureAndPersonRepository {
     fun getProcedureById(id: Int) : Procedure
 
-    fun getProceduresByDate(date: Long) : List<Procedure>
+    fun getProcedureGroupsByDate(date: Long) : List<ProcedureTimeGroup>
 
     fun getAllProcedures() : List<Procedure>
 
