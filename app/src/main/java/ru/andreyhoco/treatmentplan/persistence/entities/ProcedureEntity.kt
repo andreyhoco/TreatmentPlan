@@ -1,13 +1,16 @@
 package ru.andreyhoco.treatmentplan.persistence.entities
 
-import androidx.room.ColumnInfo
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 import ru.andreyhoco.treatmentplan.persistence.TreatmentPlanDbContract
 
 @Entity(
-    tableName = TreatmentPlanDbContract.Procedures.TABLE_NAME
+    tableName = TreatmentPlanDbContract.Procedures.TABLE_NAME,
+    foreignKeys = [ForeignKey(
+        entity = PersonEntity::class,
+        parentColumns = arrayOf(TreatmentPlanDbContract.Persons.COLUMN_NAME_ID),
+        childColumns = arrayOf(TreatmentPlanDbContract.Procedures.COLUMN_NAME_ID),
+        onDelete = ForeignKey.CASCADE
+    )]
 )
 data class ProcedureEntity(
     @PrimaryKey(autoGenerate = true)
@@ -20,9 +23,8 @@ data class ProcedureEntity(
     @ColumnInfo(name = TreatmentPlanDbContract.Procedures.COLUMN_NAME_TITLE)
     val title: String,
 
-    @ColumnInfo(name = TreatmentPlanDbContract.Procedures.COLUMN_NAME_PERSON)
-    @Embedded
-    val person: PersonEntity,
+    @ColumnInfo(name = TreatmentPlanDbContract.Procedures.COLUMN_NAME_PERSON_ID)
+    val personId: Long,
 
     @ColumnInfo(name = TreatmentPlanDbContract.Procedures.COLUMN_NAME_NOTE)
     val note: String,

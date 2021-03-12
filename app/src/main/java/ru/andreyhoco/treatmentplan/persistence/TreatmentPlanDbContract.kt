@@ -9,7 +9,7 @@ object TreatmentPlanDbContract {
         const val COLUMN_NAME_ID = "procedure_id"
         const val COLUMN_NAME_IMAGE_ID = "image_id"
         const val COLUMN_NAME_TITLE = "title"
-        const val COLUMN_NAME_PERSON = "person"
+        const val COLUMN_NAME_PERSON_ID = "person_id"
         const val COLUMN_NAME_NOTE = "note"
         const val COLUMN_NAME_TIMES_OF_TAKING = "times_of_taking"
         const val COLUMN_NAME_START_DATE = "start_date"
@@ -22,5 +22,12 @@ object TreatmentPlanDbContract {
         const val COLUMN_NAME_ID = "person_id"
         const val COLUMN_NAME_PERSON_NAME = "name"
         const val COLUMN_NAME_IMAGE_ID = "image_id"
+    }
+
+    object ProceduresWithPerson {
+        const val TABLE_NAME = "procedures_with_persons"
+
+        const val COLUMN_NAME_PERSON = "person"
+        const val COLUMN_NAME_PROCEDURE = "procedure"
     }
 }
