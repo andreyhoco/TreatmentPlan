@@ -66,7 +66,7 @@ class NotificationManager() {
         val formatter = SimpleDateFormat("HH:MM", Locale.ENGLISH)
 
         if (procedureTimeGroup.procedures.isNotEmpty()) {
-            timeOfTaking.append(formatter.parse(procedureTimeGroup.procedures[0].toString()))
+            timeOfTaking.append(formatter.parse(procedureTimeGroup.procedures[0].timesOfTaking[0].toString()))
         }
         return timeOfTaking.toString()
     }
