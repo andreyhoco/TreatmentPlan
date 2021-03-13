@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.work.Configuration
 import androidx.work.DelegatingWorkerFactory
+import ru.andreyhoco.treatmentplan.repository.FakeRepository
 import ru.andreyhoco.treatmentplan.workmanager.ChildWorkerFactory
 import ru.andreyhoco.treatmentplan.workmanager.ParentWorkerFactory
 
@@ -16,7 +17,7 @@ class App : Application(), Configuration.Provider {
     override fun getWorkManagerConfiguration(): Configuration {
         val myWorkerFactory = DelegatingWorkerFactory()
         myWorkerFactory.addFactory(ParentWorkerFactory(
-                //TODO нужен репозиторий.
+                FakeRepository()
         ))
         myWorkerFactory.addFactory(ChildWorkerFactory())
 
