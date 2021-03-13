@@ -15,7 +15,7 @@ import ru.andreyhoco.treatmentplan.persistence.entities.ProcedureEntity
 @Database(entities = [
     PersonEntity::class,
     ProcedureEntity::class
-    ], version = 1
+    ], version = 3
 )
 @TypeConverters(Converters::class)
 abstract class TreatmentPlanDatabase: RoomDatabase() {

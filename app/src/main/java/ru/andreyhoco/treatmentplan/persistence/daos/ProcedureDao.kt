@@ -19,16 +19,15 @@ interface ProcedureDao {
     fun getAllProcedures(): Flow<List<ProcedureEntity>>
 
     @Query(
-            "SELECT * From Procedures WHERE (:firstDate BETWEEN start_date AND end_date)" +
-                    " OR (:secondDate BETWEEN start_date AND end_date)"
+"SELECT * From Procedures WHERE (:firstDate BETWEEN start_date AND end_date)" +
+        " OR (:secondDate BETWEEN start_date AND end_date)"
     )
     fun getProceduresBetweenDates(firstDate: Long, secondDate: Long): Flow<List<ProcedureEntity>>
 
     @Query(
-            "SELECT * From Procedures WHERE (:firstDate BETWEEN start_date AND end_date)" +
-                    " OR (:secondDate BETWEEN start_date AND end_date)"
+"SELECT * From Procedures WHERE (:firstDate BETWEEN start_date AND end_date) OR (:secondDate BETWEEN start_date AND end_date)"
     )
-    suspend fun getProceduresBetweenDatesOneSot(firstDate: Long, secondDate: Long): List<ProcedureEntity>
+    suspend fun getProceduresBetweenDatesOneShot(firstDate: Long, secondDate: Long): List<ProcedureEntity>
 
     @Query("DELETE FROM Procedures")
     suspend fun deleteAllProcedures()

@@ -7,10 +7,10 @@ import ru.andreyhoco.treatmentplan.repository.modelEntities.TimeOfIntake
 @Entity(
     tableName = TreatmentPlanDbContract.Procedures.TABLE_NAME,
     foreignKeys = [ForeignKey(
-        entity = PersonEntity::class,
-        parentColumns = arrayOf(TreatmentPlanDbContract.Persons.COLUMN_NAME_ID),
-        childColumns = arrayOf(TreatmentPlanDbContract.Procedures.COLUMN_NAME_ID),
-        onDelete = ForeignKey.CASCADE
+            entity = PersonEntity::class,
+            parentColumns = [TreatmentPlanDbContract.Persons.COLUMN_NAME_ID],
+            childColumns = [TreatmentPlanDbContract.Procedures.COLUMN_NAME_PERSON_ID],
+            onDelete = ForeignKey.CASCADE
     )]
 )
 data class ProcedureEntity(

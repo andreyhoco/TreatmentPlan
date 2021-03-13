@@ -23,6 +23,12 @@ class ProcedureAndPersonRepositoryImp(
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun getAllPersonOneShot(): List<Person> {
+        return personDao.getAllPersonsOneShot().map { personEntity ->
+            personEntity.toPerson()
+        }
+    }
+
     override fun getPersonById(id: Long): Flow<Person> {
         return personDao.getPersonById(id).map { personEntity ->
                 personEntity.toPerson()
@@ -31,6 +37,16 @@ class ProcedureAndPersonRepositoryImp(
 
     override suspend fun insertPerson(person: Person) {
         personDao.insert(person.toPersonEntity())
+    }
+
+    override suspend fun insertProcedure(procedure: Procedure) {
+        procedureDao.insert(procedure.toProcedureEntity(procedure.person))
+
+//        Добавить пуск воркера с нотификацией
+    }
+
+    suspend fun insertProcedures(procedures: List<Procedure>) {
+        procedureDao.insertProcedures(procedures.map { it.toProcedureEntity(it.person) })
     }
 
     override fun getAllProcedures(): Flow<List<Procedure>> {
@@ -58,7 +74,9 @@ class ProcedureAndPersonRepositoryImp(
                 val person = personDao.getOneShotPersonById(it.personId).toPerson()
                 it.toProcedure(person)
             }
-            groupProceduresByTime(proceduresList)
+            groupProceduresByTime(proceduresList).filter { timeGroup ->
+                (timeGroup.startTime >= firstDate) and (timeGroup.endTime <= secondDate)
+            }
         }.flowOn(Dispatchers.IO)
     }
 
@@ -66,17 +84,13 @@ class ProcedureAndPersonRepositoryImp(
         firstDate: Long,
         secondDate: Long
     ): List<IntakeProcedureTimeGroup> {
-        val procedures = procedureDao.getProceduresBetweenDatesOneSot(firstDate, secondDate).map {
+        val procedures = procedureDao.getProceduresBetweenDatesOneShot(firstDate, secondDate).map {
             val person = personDao.getOneShotPersonById(it.personId).toPerson()
             it.toProcedure(person)
         }
-        return groupProceduresByTime(procedures)
-    }
-
-    override suspend fun insertProcedure(procedure: Procedure) {
-        procedureDao.insert(procedure.toProcedureEntity(procedure.person))
-
-        TODO("Добавить пуск воркера с нотификацией")
+        return groupProceduresByTime(procedures).filter { timeGroup ->
+            (timeGroup.startTime >= firstDate) and (timeGroup.endTime <= secondDate)
+        }
     }
 
     override suspend fun deleteAllPersons() {

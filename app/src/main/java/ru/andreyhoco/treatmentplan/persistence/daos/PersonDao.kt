@@ -24,6 +24,9 @@ interface PersonDao {
     @Query("SELECT * FROM Persons")
     fun getAllPersons(): Flow<List<PersonEntity>>
 
+    @Query("SELECT * FROM Persons")
+    suspend fun getAllPersonsOneShot(): List<PersonEntity>
+
     @Query("DELETE FROM Persons WHERE person_id IN (:personIds)")
     suspend fun deletePersonsByIds(personIds: List<Long>)
 
