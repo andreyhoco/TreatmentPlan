@@ -29,8 +29,8 @@ data class ProcedureEntity(
     @ColumnInfo(name = TreatmentPlanDbContract.Procedures.COLUMN_NAME_NOTE)
     val note: String,
 
-    @ColumnInfo(name = TreatmentPlanDbContract.Procedures.COLUMN_NAME_TIMES_OF_TAKING)
-    val timesOfTaking: List<Long>,
+    @ColumnInfo(name = TreatmentPlanDbContract.Procedures.COLUMN_NAME_TIMES_OF_INTAKE)
+    val timesOfIntake: List<Long>,
 
     @ColumnInfo(name = TreatmentPlanDbContract.Procedures.COLUMN_NAME_START_DATE)
     val startDate: Long,
