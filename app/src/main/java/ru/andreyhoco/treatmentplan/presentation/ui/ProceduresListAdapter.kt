@@ -7,7 +7,7 @@ import ru.andreyhoco.treatmentplan.R
 
 class ProceduresListAdapter(
     var items: MutableList<ProcedureListItem>,
-    val procedureItemClickListener: ProcedureItemClickListener
+    private val procedureItemClickListener: ProcedureItemClickListener
     ):
     RecyclerView.Adapter<ProcedureItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProcedureItemViewHolder {

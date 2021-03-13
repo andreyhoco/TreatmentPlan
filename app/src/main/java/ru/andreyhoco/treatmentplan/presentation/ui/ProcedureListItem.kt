@@ -1,8 +1,6 @@
 package ru.andreyhoco.treatmentplan.presentation.ui
 
-import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
-import ru.andreyhoco.treatmentplan.repository.modelEntities.ProcedureTimeGroup
-import ru.andreyhoco.treatmentplan.repository.modelEntities.TimeOfIntake
+import ru.andreyhoco.treatmentplan.repository.modelEntities.*
 
 abstract class ProcedureListItem {
     companion object {
@@ -13,16 +11,13 @@ abstract class ProcedureListItem {
     var itemType: Int = TYPE_GROUP
 }
 
-data class ProcedureGroupItem(var procedureTimeGroup: ProcedureTimeGroup): ProcedureListItem() {
+data class ProcedureGroupItem(var intakeProcedureTimeGroup: IntakeProcedureTimeGroup): ProcedureListItem() {
     init {
         itemType = TYPE_GROUP
     }
 }
 
-data class ProcedureItem(
-    var procedure: Procedure,
-    var timeOfIntake: TimeOfIntake
-): ProcedureListItem() {
+data class ProcedureItem(var intakeProcedure: IntakeProcedure): ProcedureListItem() {
     init {
         itemType = TYPE_ITEM
     }

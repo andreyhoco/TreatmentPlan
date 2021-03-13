@@ -9,8 +9,8 @@ import ru.andreyhoco.treatmentplan.presentation.ui.ProcedureGroupItem
 import ru.andreyhoco.treatmentplan.presentation.ui.ProcedureItem
 import ru.andreyhoco.treatmentplan.presentation.ui.ProcedureListItem
 import ru.andreyhoco.treatmentplan.repository.ProcedureAndPersonRepository
+import ru.andreyhoco.treatmentplan.repository.modelEntities.IntakeProcedureTimeGroup
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
-import ru.andreyhoco.treatmentplan.repository.modelEntities.ProcedureTimeGroup
 import ru.andreyhoco.treatmentplan.repository.modelEntities.TimeOfIntake
 import java.util.*
 
@@ -18,6 +18,7 @@ class ProceduresListViewModel : ViewModel() {
     lateinit var repository: ProcedureAndPersonRepository
 
     var proceduresList = MutableLiveData<List<ProcedureListItem>>(mutableListOf())
+    var selectedProcedure = MutableLiveData<Procedure?>(null)
 
     fun loadProceduresByDate() {
         val calendar = Calendar.getInstance()
@@ -38,30 +39,24 @@ class ProceduresListViewModel : ViewModel() {
         viewModelScope.launch {
             repository
                 .getProcedureGroupsBetweenDates(startOfCurrentDay, endOfCurrentDay)
-                .collect { listOfProcedureTimeGroup ->
-                    onProceduresLoaded(listOfProcedureTimeGroup)
+                .collect { listOfIntakeProcedureTimeGroup ->
+                    onProceduresLoaded(listOfIntakeProcedureTimeGroup)
                 }
         }
     }
 
-    private fun onProceduresLoaded(proceduresByGroup: List<ProcedureTimeGroup>) {
+    private fun onProceduresLoaded(listOfIntakeProcedureTimeGroup: List<IntakeProcedureTimeGroup>) {
         val proceduresItemsList: MutableList<ProcedureListItem> = mutableListOf()
 
-        proceduresByGroup.forEach { procedureTimeGroup ->
+        listOfIntakeProcedureTimeGroup.forEach { intakeProcedureTimeGroup ->
             val proceduresItemsInGroup: MutableList<ProcedureItem> = mutableListOf()
 
-            procedureTimeGroup.procedures.forEach { procedure ->
-                procedure.timesOfIntake
-                    .filter { timeOfIntake ->
-                        timeOfIntake.timeOfTakes in procedureTimeGroup.startTime..procedureTimeGroup.endTime
-                    }
-                    .forEach { timeOfIntake ->
-                        proceduresItemsInGroup.add(ProcedureItem(procedure, timeOfIntake))
-                    }
+            intakeProcedureTimeGroup.procedures.forEach { intakeProcedure ->
+                proceduresItemsInGroup.add(ProcedureItem(intakeProcedure))
             }
 
             if (proceduresItemsInGroup.size > 0) {
-                proceduresItemsList.add(ProcedureGroupItem(procedureTimeGroup))
+                proceduresItemsList.add(ProcedureGroupItem(intakeProcedureTimeGroup))
                 proceduresItemsList.addAll(proceduresItemsInGroup)
             }
         }
@@ -69,7 +64,17 @@ class ProceduresListViewModel : ViewModel() {
         proceduresList.value = proceduresItemsList
     }
 
-    fun setCheckBox(procedure: Procedure, timeOfIntake: TimeOfIntake) {
+    fun getPersonById(procedureId: Long) {
+        viewModelScope.launch {
+            repository
+                .getProcedureById(procedureId)
+                .collect { procedure ->
+                    selectedProcedure.value = procedure
+                }
+        }
+    }
+
+    fun setCheckBox(procedureId: Long, timeOfIntake: TimeOfIntake) {
         // TODO: call update done flag in repository
     }
 }

@@ -43,9 +43,10 @@ class ProceduresListFragment :
         viewModel.loadProceduresByDate()
 
         viewModel.proceduresList.observe(viewLifecycleOwner, this::updateListOfProcedures)
+        viewModel.selectedProcedure.observe(viewLifecycleOwner, this::editProcedure)
 
         btnAdd.setOnClickListener {
-            onItemClick(
+            editProcedure(
                 Procedure(
                     id = 0,
                     imageId = 0,
@@ -80,16 +81,22 @@ class ProceduresListFragment :
         proceduresListAdapter.notifyDataSetChanged()
     }
 
-    override fun onItemClick(procedure: Procedure) {
-        parentFragmentManager.beginTransaction().apply {
-            addToBackStack(null)
-            add(R.id.fcv_main, EditProcedureFragment.newInstance(procedure))
-            commit()
+    private fun editProcedure(procedure: Procedure?) {
+        procedure?.let { proc ->
+            parentFragmentManager.beginTransaction().apply {
+                addToBackStack(null)
+                add(R.id.fcv_main, EditProcedureFragment.newInstance(proc))
+                commit()
+            }
         }
     }
 
-    override fun onItemCheckBoxClick(procedure: Procedure, timeOfIntake: TimeOfIntake) {
-        viewModel.setCheckBox(procedure, timeOfIntake)
+    override fun onItemClick(procedureId: Long) {
+        viewModel.getPersonById(procedureId)
+    }
+
+    override fun onItemCheckBoxClick(procedureId: Long, timeOfIntake: TimeOfIntake) {
+        viewModel.setCheckBox(procedureId, timeOfIntake)
     }
 
     companion object {
@@ -100,6 +107,6 @@ class ProceduresListFragment :
 }
 
 interface ProcedureItemClickListener {
-    fun onItemClick(procedure: Procedure)
-    fun onItemCheckBoxClick(procedure: Procedure, timeOfIntake: TimeOfIntake)
+    fun onItemClick(procedureId: Long)
+    fun onItemCheckBoxClick(procedureId: Long, timeOfIntake: TimeOfIntake)
 }

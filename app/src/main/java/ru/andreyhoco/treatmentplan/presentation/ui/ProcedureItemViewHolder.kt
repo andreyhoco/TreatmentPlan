@@ -19,7 +19,8 @@ class ProcedureGroupViewHolder(itemView: View): ProcedureItemViewHolder(itemView
     override fun bind(item: ProcedureListItem, procedureItemClickListener: ProcedureItemClickListener) {
         tvGroupHeader.text =
             if (item is ProcedureGroupItem) {
-                "${format("hh:mm", item.procedureTimeGroup.startTime)} - ${format("hh:mm", item.procedureTimeGroup.endTime)}"
+                "${format("hh:mm", item.intakeProcedureTimeGroup.startTime)}" + " - " +
+                        "${format("hh:mm", item.intakeProcedureTimeGroup.endTime)}"
             } else {
                 ""
             }
@@ -35,15 +36,19 @@ class ProcedureViewHolder(itemView: View): ProcedureItemViewHolder(itemView) {
 
     override fun bind(item: ProcedureListItem, procedureItemClickListener: ProcedureItemClickListener) {
         if (item is ProcedureItem) {
-            cbDone.isChecked = item.timeOfIntake.isDone
-            tvPerson.text = "${format("hh:mm", item.timeOfIntake.timeOfTakes)}: ${item.procedure.person.name}"
-            tvProcedure.text = "${item.procedure.title}"
+            cbDone.isChecked = item.intakeProcedure.timeOfIntake.isDone
+            tvPerson.text = "${format("hh:mm", item.intakeProcedure.timeOfIntake.timeOfTakes)}: " +
+                    "${item.intakeProcedure.person.name}"
+            tvProcedure.text = "${item.intakeProcedure.title}"
 
             itemView.setOnClickListener {
-                procedureItemClickListener.onItemClick(item.procedure)
+                procedureItemClickListener.onItemClick(item.intakeProcedure.id)
             }
             cbDone.setOnClickListener {
-                procedureItemClickListener.onItemCheckBoxClick(item.procedure, item.timeOfIntake)
+                procedureItemClickListener.onItemCheckBoxClick(
+                    item.intakeProcedure.id,
+                    item.intakeProcedure.timeOfIntake
+                )
             }
         } else {
             cbDone.isChecked = false
