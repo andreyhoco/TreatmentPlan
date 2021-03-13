@@ -10,6 +10,8 @@ interface ProcedureAndPersonRepository {
 
     suspend fun getProcedureGroupsBetweenDates(firstDate: Long, secondDate: Long) : Flow<List<ProcedureTimeGroup>>
 
+    suspend fun getProcedureGroupsBetweenDatesOneShot(firstDate: Long, secondDate: Long) : Flow<List<ProcedureTimeGroup>>
+
     suspend fun getAllProcedures() : Flow<List<Procedure>>
 
     suspend fun getPersonById(id: Long) : Flow<Person>
