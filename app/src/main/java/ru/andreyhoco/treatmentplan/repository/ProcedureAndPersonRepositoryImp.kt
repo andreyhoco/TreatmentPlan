@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.map
 import ru.andreyhoco.treatmentplan.persistence.database.TreatmentPlanDatabase
 import ru.andreyhoco.treatmentplan.persistence.entities.PersonEntity
 import ru.andreyhoco.treatmentplan.persistence.entities.ProcedureEntity
+import ru.andreyhoco.treatmentplan.repository.modelEntities.IntakeProcedureTimeGroup
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Person
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
-import ru.andreyhoco.treatmentplan.repository.modelEntities.ProcedureTimeGroup
 import ru.andreyhoco.treatmentplan.repository.modelEntities.TimeOfIntake
 
 class ProcedureAndPersonRepositoryImp(
@@ -56,14 +56,14 @@ class ProcedureAndPersonRepositoryImp(
     override suspend fun getProcedureGroupsBetweenDates(
         firstDate: Long,
         secondDate: Long
-    ): Flow<List<ProcedureTimeGroup>> {
+    ): Flow<List<IntakeProcedureTimeGroup>> {
         TODO("Not yet implemented")
     }
 
     override suspend fun getProcedureGroupsBetweenDatesOneShot(
         firstDate: Long,
         secondDate: Long
-    ): Flow<List<ProcedureTimeGroup>> {
+    ): List<IntakeProcedureTimeGroup> {
         TODO("Not yet implemented")
     }
 
