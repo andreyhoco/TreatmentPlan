@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import ru.andreyhoco.treatmentplan.R
 import ru.andreyhoco.treatmentplan.notification.NotificationManager
-import ru.andreyhoco.treatmentplan.repository.modelEntities.ProcedureTimeGroup
+import ru.andreyhoco.treatmentplan.repository.modelEntities.IntakeProcedureTimeGroup
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     //TODO Тестовый метод.
     private fun createAndPushNotification() {
         val notificationManger = NotificationManager(applicationContext)
-        val notification = notificationManger.createNotification(ProcedureTimeGroup())
+        val notification = notificationManger.createNotification(IntakeProcedureTimeGroup())
         notificationManger.showNotification(notification)
     }
 }

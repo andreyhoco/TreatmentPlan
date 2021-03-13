@@ -8,7 +8,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationManagerCompat.IMPORTANCE_DEFAULT
 import ru.andreyhoco.treatmentplan.App
 import ru.andreyhoco.treatmentplan.R
-import ru.andreyhoco.treatmentplan.repository.modelEntities.ProcedureTimeGroup
+import ru.andreyhoco.treatmentplan.repository.modelEntities.IntakeProcedureTimeGroup
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.text.StringBuilder
@@ -30,7 +30,7 @@ class NotificationManager(context: Context) {
         }
     }
 
-    fun createNotification(procedureTimeGroup: ProcedureTimeGroup)
+    fun createNotification(procedureTimeGroup: IntakeProcedureTimeGroup)
             : Notification {
         return NotificationCompat.Builder(appContext, CHANNEL_NEW_PROCEDURES)
             //TODO нужна иконка для Уведомления, иначе падает.
@@ -51,7 +51,7 @@ class NotificationManager(context: Context) {
         notificationManager.notify(NOTIFICATION_ID, notification)
     }
 
-    private fun createTitleNotification(procedureTimeGroup: ProcedureTimeGroup) : String {
+    private fun createTitleNotification(procedureTimeGroup: IntakeProcedureTimeGroup) : String {
         val title = StringBuilder()
 
         title
@@ -67,19 +67,19 @@ class NotificationManager(context: Context) {
         return title.toString()
     }
 
-    private fun getTimesOfTakingProcedure(procedureTimeGroup: ProcedureTimeGroup) : String {
+    private fun getTimesOfTakingProcedure(procedureTimeGroup: IntakeProcedureTimeGroup) : String {
         val timeOfTaking = StringBuilder()
 
         val formatter = SimpleDateFormat("HH:MM", Locale.ENGLISH)
 
         if (procedureTimeGroup.procedures.isNotEmpty()) {
-            val date = Date(procedureTimeGroup.procedures[0].timesOfIntake[0].timeOfTakes)
+            val date = Date(procedureTimeGroup.procedures[0].timeOfIntake.timeOfTakes)
             timeOfTaking.append(formatter.format(date))
         }
         return timeOfTaking.toString()
     }
 
-    private fun createContentTextNotification(procedureTimeGroup: ProcedureTimeGroup) : String {
+    private fun createContentTextNotification(procedureTimeGroup: IntakeProcedureTimeGroup) : String {
         val contentText = StringBuilder()
 
         procedureTimeGroup.procedures.forEach {
