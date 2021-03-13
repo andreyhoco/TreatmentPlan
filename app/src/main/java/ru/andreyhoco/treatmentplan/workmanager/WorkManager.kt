@@ -11,12 +11,15 @@ class WorkManager(appContext: Context, workerParams: WorkerParameters) :
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO){
         return@withContext try {
-
+            loadData()
             Result.success()
         } catch (error: Throwable) {
             Result.failure()
         }
     }
 
+    private suspend fun loadData() {
+
+    }
 
 }
