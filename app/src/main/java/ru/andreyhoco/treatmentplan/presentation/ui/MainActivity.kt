@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         //TODO Тестовый метод.
         val button: Button = findViewById(R.id.button)
         button.setOnClickListener {
-            createAndPushNotification()
+//            createAndPushNotification()
         }
     }
 

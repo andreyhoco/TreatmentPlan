@@ -17,6 +17,7 @@ class App : Application(), Configuration.Provider {
     override fun getWorkManagerConfiguration(): Configuration {
         val myWorkerFactory = DelegatingWorkerFactory()
         myWorkerFactory.addFactory(ParentWorkerFactory(
+                //Todo Фейковый репозиторий!!!!
                 FakeRepository()
         ))
         myWorkerFactory.addFactory(ChildWorkerFactory())
