@@ -5,7 +5,6 @@ import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationManagerCompat.IMPORTANCE_DEFAULT
-import androidx.core.app.Person
 import ru.andreyhoco.treatmentplan.App
 import ru.andreyhoco.treatmentplan.R
 import ru.andreyhoco.treatmentplan.repository.modelEntities.ProcedureTimeGroup
@@ -26,14 +25,14 @@ class NotificationManager() {
         }
     }
 
-    fun createNotification(persons: List<Person>, procedureTimeGroup: ProcedureTimeGroup)
+    fun createNotification(procedureTimeGroup: ProcedureTimeGroup)
             : Notification {
         return NotificationCompat.Builder(appContext, CHANNEL_NEW_PROCEDURES)
             .setContentTitle(
                     createTitleNotification(procedureTimeGroup)
             )
             .setContentText(
-                    createContentTextNotification(persons, procedureTimeGroup)
+                    createContentTextNotification(procedureTimeGroup)
             )
             .setStyle(NotificationCompat.BigTextStyle())
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -72,8 +71,7 @@ class NotificationManager() {
         return timeOfTaking.toString()
     }
 
-    private fun createContentTextNotification(persons: List<Person>,
-                                              procedureTimeGroup: ProcedureTimeGroup) : String {
+    private fun createContentTextNotification(procedureTimeGroup: ProcedureTimeGroup) : String {
         val contentText = StringBuilder()
 
         procedureTimeGroup.procedures.forEach {
