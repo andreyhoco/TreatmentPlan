@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.work.Configuration
 import androidx.work.DelegatingWorkerFactory
 import ru.andreyhoco.treatmentplan.repository.FakeRepository
-import ru.andreyhoco.treatmentplan.workmanager.ChildWorkerFactory
 import ru.andreyhoco.treatmentplan.workmanager.ParentWorkerFactory
 
 class App : Application(), Configuration.Provider {
@@ -20,7 +19,6 @@ class App : Application(), Configuration.Provider {
                 //Todo Фейковый репозиторий!!!!
                 FakeRepository()
         ))
-        myWorkerFactory.addFactory(ChildWorkerFactory())
 
         return Configuration.Builder()
                 .setMinimumLoggingLevel(android.util.Log.INFO)

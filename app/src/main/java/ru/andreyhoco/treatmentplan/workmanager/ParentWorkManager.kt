@@ -1,12 +1,11 @@
 package ru.andreyhoco.treatmentplan.workmanager
 
 import android.content.Context
-import androidx.work.CoroutineWorker
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
-import androidx.work.WorkerParameters
+import androidx.work.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import ru.andreyhoco.treatmentplan.repository.ProcedureAndPersonRepository
 import ru.andreyhoco.treatmentplan.repository.modelEntities.IntakeProcedureTimeGroup
 import java.lang.System.currentTimeMillis
@@ -36,16 +35,24 @@ class ParentWorkManager(appContext: Context, workerParameters: WorkerParameters,
     }
 
     private fun instanceChildWorkManager(intakeProcedureTimeGroup: IntakeProcedureTimeGroup) {
-        ShowNotificationWorkManager(applicationContext, workerParams, intakeProcedureTimeGroup)
+        ShowNotificationWorkManager(applicationContext, workerParams)
+
+        val data = Data.Builder()
+        data.putString("data", Json.encodeToString(intakeProcedureTimeGroup))
+
+
         val workRequest = OneTimeWorkRequest
                 .Builder(ShowNotificationWorkManager::class.java)
+                .setInputData(data.build())
                 .setInitialDelay(
                         getDelay(intakeProcedureTimeGroup),
                         TimeUnit.MILLISECONDS)
                 .build()
         WorkManager.getInstance(applicationContext).enqueue(workRequest)
     }
+
     private fun getDelay(intakeProcedureTimeGroup: IntakeProcedureTimeGroup): Long {
         return intakeProcedureTimeGroup.startTime - currentTimeMillis()
     }
+
 }

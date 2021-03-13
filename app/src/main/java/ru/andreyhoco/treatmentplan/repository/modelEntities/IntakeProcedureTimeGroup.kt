@@ -1,5 +1,8 @@
 package ru.andreyhoco.treatmentplan.repository.modelEntities
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class IntakeProcedureTimeGroup(
         val startTime: Long,
         val endTime: Long,
