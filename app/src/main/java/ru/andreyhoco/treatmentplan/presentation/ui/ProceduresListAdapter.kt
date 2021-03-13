@@ -5,7 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.andreyhoco.treatmentplan.R
 
-class ProceduresListAdapter(var items: MutableList<ProcedureListItem>):
+class ProceduresListAdapter(
+    var items: MutableList<ProcedureListItem>,
+    val procedureItemClickListener: ProcedureItemClickListener
+    ):
     RecyclerView.Adapter<ProcedureItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProcedureItemViewHolder {
         return if (viewType == ProcedureListItem.TYPE_GROUP) {
@@ -24,7 +27,7 @@ class ProceduresListAdapter(var items: MutableList<ProcedureListItem>):
     }
 
     override fun onBindViewHolder(holder: ProcedureItemViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], procedureItemClickListener)
     }
 
     override fun getItemViewType(position: Int): Int {

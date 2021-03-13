@@ -11,6 +11,7 @@ import ru.andreyhoco.treatmentplan.presentation.ui.ProcedureListItem
 import ru.andreyhoco.treatmentplan.repository.ProcedureAndPersonRepository
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
 import ru.andreyhoco.treatmentplan.repository.modelEntities.ProcedureTimeGroup
+import ru.andreyhoco.treatmentplan.repository.modelEntities.TimeOfIntake
 import java.util.*
 
 class ProceduresListViewModel : ViewModel() {
@@ -66,5 +67,9 @@ class ProceduresListViewModel : ViewModel() {
         }
 
         proceduresList.value = proceduresItemsList
+    }
+
+    fun setCheckBox(procedure: Procedure, timeOfIntake: TimeOfIntake) {
+        // TODO: call update done flag in repository
     }
 }
