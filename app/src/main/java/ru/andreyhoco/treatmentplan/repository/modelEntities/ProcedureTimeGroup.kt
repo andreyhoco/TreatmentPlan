@@ -20,7 +20,7 @@ data class ProcedureTimeGroup(
                 ),
                 "",
                 listOf(
-                    System.currentTimeMillis() - 4000
+                    System.currentTimeMillis() - 4
                 ),
                 0,
                 0
@@ -36,7 +36,7 @@ data class ProcedureTimeGroup(
             ),
             "",
                 listOf(
-                    System.currentTimeMillis() + 4000
+                    System.currentTimeMillis() + 4
                 ),
             0,
             0
@@ -52,7 +52,7 @@ data class ProcedureTimeGroup(
                 ),
                 "",
                 listOf(
-                    System.currentTimeMillis() - 10000
+                    System.currentTimeMillis() - 1
                 ),
                 0,
                 0
@@ -68,7 +68,7 @@ data class ProcedureTimeGroup(
                 ),
                 "",
                 listOf(
-                    System.currentTimeMillis() + 10000
+                    System.currentTimeMillis() + 1
                 ),
                 0,
                 0

@@ -15,4 +15,13 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="189dp"
+        android:layout_height="82dp"
+        android:text="Notification"
+        tools:layout_editor_absoluteX="93dp"
+        tools:layout_editor_absoluteY="428dp" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

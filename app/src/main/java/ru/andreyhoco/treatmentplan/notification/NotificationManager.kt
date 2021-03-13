@@ -1,6 +1,8 @@
 package ru.andreyhoco.treatmentplan.notification
 
 import android.app.Notification
+import android.content.Context
+import android.util.Log
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -12,22 +14,25 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.text.StringBuilder
 
-class NotificationManager() {
-    private val appContext = App.appContext
+class NotificationManager(context: Context) {
+//    private val appContext = App.appContext
+    private val appContext = context
     private val notificationManager = NotificationManagerCompat.from(appContext)
 
-    init {
-        if (notificationManager.getNotificationChannel(CHANNEL_NEW_PROCEDURES) == null) {
-            notificationManager.createNotificationChannel(
-                NotificationChannelCompat.Builder(CHANNEL_NEW_PROCEDURES, IMPORTANCE_DEFAULT)
-                    .build()
-            )
-        }
-    }
+//    init {
+//        if (notificationManager.getNotificationChannel(CHANNEL_NEW_PROCEDURES) == null) {
+//            notificationManager.createNotificationChannel(
+//                NotificationChannelCompat.Builder(CHANNEL_NEW_PROCEDURES, IMPORTANCE_DEFAULT)
+//                    .build()
+//            )
+//        }
+//    }
 
     fun createNotification(procedureTimeGroup: ProcedureTimeGroup)
             : Notification {
         return NotificationCompat.Builder(appContext, CHANNEL_NEW_PROCEDURES)
+            //TODO нужна иконка для Уведомления, иначе падает.
+            .setSmallIcon(R.mipmap.ic_launcher_round)
             .setContentTitle(
                     createTitleNotification(procedureTimeGroup)
             )
@@ -35,13 +40,13 @@ class NotificationManager() {
                     createContentTextNotification(procedureTimeGroup)
             )
             .setStyle(NotificationCompat.BigTextStyle())
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
     }
 
     fun showNotification(notification: Notification) {
-        notificationManager.notify("", 1, notification)
+        notificationManager.notify(NOTIFICATION_ID, notification)
     }
 
     private fun createTitleNotification(procedureTimeGroup: ProcedureTimeGroup) : String {
@@ -56,6 +61,7 @@ class NotificationManager() {
                 .append(procedureTimeGroup.procedures.size)
                 .append(appContext.getString(R.string.procedure))
         //TODO разобраться со склонениями слова "процедура"
+        Log.d("Not", title.toString())
 
         return title.toString()
     }
@@ -66,7 +72,8 @@ class NotificationManager() {
         val formatter = SimpleDateFormat("HH:MM", Locale.ENGLISH)
 
         if (procedureTimeGroup.procedures.isNotEmpty()) {
-            timeOfTaking.append(formatter.parse(procedureTimeGroup.procedures[0].timesOfTaking[0].toString()))
+            val date = Date(procedureTimeGroup.procedures[0].timesOfTaking[0])
+            timeOfTaking.append(formatter.format(date))
         }
         return timeOfTaking.toString()
     }
@@ -76,20 +83,21 @@ class NotificationManager() {
 
         procedureTimeGroup.procedures.forEach {
             contentText
-                    .append(it.person)
+                    .append(it.person.name)
                     .append(appContext.getString(R.string.colon))
                     .append(it.title)
                     .append(System.getProperty("line.separator"))
         }
-
+        Log.d("Not", contentText.toString())
         return contentText.toString()
     }
 
     companion object {
         private const val CHANNEL_NEW_PROCEDURES = "new procedures"
+        private const val NOTIFICATION_ID = 100
     }
 
-    object Singleton{
-        val instance = NotificationManager()
-    }
+//    object Singleton{
+//        val instance = NotificationManager()
+//    }
 }
