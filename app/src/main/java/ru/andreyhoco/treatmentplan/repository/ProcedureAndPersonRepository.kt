@@ -6,17 +6,17 @@ import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
 import ru.andreyhoco.treatmentplan.repository.modelEntities.IntakeProcedureTimeGroup
 
 interface ProcedureAndPersonRepository {
-    suspend fun getProcedureById(id: Long) : Flow<Procedure>
+    fun getProcedureById(id: Long) : Flow<Procedure>
 
-    suspend fun getProcedureGroupsBetweenDates(firstDate: Long, secondDate: Long) : Flow<List<IntakeProcedureTimeGroup>>
+    fun getProcedureGroupsBetweenDates(firstDate: Long, secondDate: Long) : Flow<List<IntakeProcedureTimeGroup>>
 
     suspend fun getProcedureGroupsBetweenDatesOneShot(firstDate: Long, secondDate: Long) : List<IntakeProcedureTimeGroup>
 
-    suspend fun getAllProcedures() : Flow<List<Procedure>>
+    fun getAllProcedures(): Flow<List<Procedure>>
 
-    suspend fun getPersonById(id: Long) : Flow<Person>
+    fun getPersonById(id: Long): Flow<Person>
 
-    suspend fun getAllPerson() : Flow<List<Person>>
+    fun getAllPerson() : Flow<List<Person>>
 
     suspend fun insertProcedure(procedure: Procedure)
 
