@@ -7,9 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.andreyhoco.treatmentplan.repository.ProcedureAndPersonRepository
 
-class WorkManager(appContext: Context, workerParams: WorkerParameters,
-                  repository: ProcedureAndPersonRepository) :
+class ParentWorkManager(appContext: Context, workerParams: WorkerParameters,
+                        repository: ProcedureAndPersonRepository) :
     CoroutineWorker(appContext, workerParams) {
+    private val workerRepository = repository
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO){
         return@withContext try {
@@ -21,7 +22,7 @@ class WorkManager(appContext: Context, workerParams: WorkerParameters,
     }
 
     private suspend fun loadData() {
-
+        workerRepository.getProcedureGroupsBetweenDatesOneShot(1,1)
     }
 
 }
