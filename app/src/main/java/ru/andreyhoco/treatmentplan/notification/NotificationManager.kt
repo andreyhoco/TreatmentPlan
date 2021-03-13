@@ -1,13 +1,21 @@
 package ru.andreyhoco.treatmentplan.notification
 
 import android.app.Notification
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationManagerCompat.IMPORTANCE_DEFAULT
 import androidx.core.app.Person
 import ru.andreyhoco.treatmentplan.App
+import ru.andreyhoco.treatmentplan.R
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatter.ofPattern
+import java.util.*
 import kotlin.text.StringBuilder
 
 class NotificationManager() {
@@ -45,13 +53,27 @@ class NotificationManager() {
         val title = StringBuilder()
 
         title
-                .append("B")
-                .append("10:05")
-                .append(" - ")
-                .append("4")
-                .append("процедуры")
+                .append(appContext.getString(R.string.V))
+                .append(
+                        getTimesOfTakingProcedure(procedures)
+                )
+                .append(appContext.getString(R.string.dash))
+                .append(procedures.size)
+                .append(appContext.getString(R.string.procedure))
+        //TODO разобраться со склонениями слова "процедура"
 
         return title.toString()
+    }
+
+    private fun getTimesOfTakingProcedure(procedures: List<Procedure>) : String {
+        val timeOfTaking = StringBuilder()
+
+        val formatter = SimpleDateFormat("HH:MM", Locale.ENGLISH)
+
+        if (procedures.isNotEmpty()) {
+            timeOfTaking.append(formatter.parse(procedures[0].timesOfTaking[0].toString()))
+        }
+        return timeOfTaking.toString()
     }
 
     private fun createContentTextNotification(persons: List<Person>, procedures: List<Procedure>) : String {
