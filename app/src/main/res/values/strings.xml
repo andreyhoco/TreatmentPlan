@@ -7,4 +7,6 @@
     <string name="dash">\u0020\u2013\u0020</string>
     <string name="procedure">\u0020процедуры</string>
     <string name="colon">\u0020\u003A\u0020</string>
+    <string name="channel_new_procedure">New procedure</string>
+    <string name="channel_new_procedure_description">Shows the new procedure</string>
 </resources>

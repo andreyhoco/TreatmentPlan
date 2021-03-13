@@ -15,7 +15,8 @@ import java.util.*
 import kotlin.text.StringBuilder
 
 class NotificationManager(context: Context) {
-//    private val appContext = App.appContext
+//TODO нужно пробросить контекст.
+    //    private val appContext = App.appContext
     private val appContext = context
     private val notificationManager = NotificationManagerCompat.from(appContext)
 
@@ -23,8 +24,8 @@ class NotificationManager(context: Context) {
         if (notificationManager.getNotificationChannel(CHANNEL_NEW_PROCEDURES) == null) {
             notificationManager.createNotificationChannel(
                 NotificationChannelCompat.Builder(CHANNEL_NEW_PROCEDURES, IMPORTANCE_DEFAULT)
-                    .setName("sdf")
-                    .setDescription(";liu")
+                    .setName(appContext.getString(R.string.channel_new_procedure))
+                    .setDescription(appContext.getString(R.string.channel_new_procedure_description))
                     .build()
             )
         }
@@ -63,7 +64,6 @@ class NotificationManager(context: Context) {
                 .append(procedureTimeGroup.procedures.size)
                 .append(appContext.getString(R.string.procedure))
         //TODO разобраться со склонениями слова "процедура"
-        Log.d("Not", title.toString())
 
         return title.toString()
     }
@@ -90,8 +90,8 @@ class NotificationManager(context: Context) {
                     .append(it.title)
                     .append(System.getProperty("line.separator"))
         }
-        Log.d("Not", contentText.toString())
-        return contentText.toString()
+
+        return contentText.toString().dropLast(1)
     }
 
     companion object {
