@@ -60,6 +60,13 @@ class ProcedureAndPersonRepositoryImp(
         TODO("Not yet implemented")
     }
 
+    override suspend fun getProcedureGroupsBetweenDatesOneShot(
+        firstDate: Long,
+        secondDate: Long
+    ): Flow<List<ProcedureTimeGroup>> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun insertProcedure(procedure: Procedure) {
         procedureDao.insert(procedure.toProcedureEntity(procedure.person))
 
