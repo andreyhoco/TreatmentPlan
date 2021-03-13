@@ -20,7 +20,10 @@ data class ProcedureTimeGroup(
                 ),
                 "",
                 listOf(
-                    System.currentTimeMillis() - 4
+                    TimeOfIntake(
+                        System.currentTimeMillis() - 4,
+                        true
+                    )
                 ),
                 0,
                 0
@@ -36,7 +39,10 @@ data class ProcedureTimeGroup(
             ),
             "",
                 listOf(
-                    System.currentTimeMillis() + 4
+                    TimeOfIntake(
+                        System.currentTimeMillis() + 4,
+                        true
+                    )
                 ),
             0,
             0
@@ -52,7 +58,10 @@ data class ProcedureTimeGroup(
                 ),
                 "",
                 listOf(
-                    System.currentTimeMillis() - 1
+                    TimeOfIntake(
+                        System.currentTimeMillis() + 1,
+                        true
+                    )
                 ),
                 0,
                 0
@@ -68,7 +77,10 @@ data class ProcedureTimeGroup(
                 ),
                 "",
                 listOf(
-                    System.currentTimeMillis() + 1
+                    TimeOfIntake(
+                        System.currentTimeMillis() -1,
+                        true
+                    )
                 ),
                 0,
                 0
