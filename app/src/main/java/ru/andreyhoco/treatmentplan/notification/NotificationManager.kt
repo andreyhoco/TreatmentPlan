@@ -81,7 +81,7 @@ class NotificationManager() {
 
         contentText
                 .append("Даше")
-                .append(" : ")
+                .append(appContext.getString(R.string.colon))
                 .append("полоскание горла")
 
         return contentText.toString()
