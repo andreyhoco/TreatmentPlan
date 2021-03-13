@@ -1,17 +1,14 @@
 package ru.andreyhoco.treatmentplan.notification
 
 import android.app.Notification
-import android.app.PendingIntent
-import android.content.Intent
-import androidx.annotation.MainThread
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationManagerCompat.IMPORTANCE_DEFAULT
 import androidx.core.app.Person
 import ru.andreyhoco.treatmentplan.App
-import ru.andreyhoco.treatmentplan.presentation.ui.MainActivity
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
+import kotlin.text.StringBuilder
 
 class NotificationManager() {
     private val appContext = App.appContext
@@ -26,22 +23,16 @@ class NotificationManager() {
         }
     }
 
-    fun createNotification(persons: List<Person>, procedure: List<Procedure>) : Notification {
+    fun createNotification(persons: List<Person>, procedures: List<Procedure>) : Notification {
         return NotificationCompat.Builder(appContext, CHANNEL_NEW_PROCEDURES)
-            .setContentTitle("")
-            .setContentText("")
+            .setContentTitle(
+                    createTitleNotification(procedures)
+            )
+            .setContentText(
+                    createContentTextNotification(persons, procedures)
+            )
             .setStyle(NotificationCompat.BigTextStyle())
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setContentIntent(
-                PendingIntent.getActivity(
-                    appContext,
-                    REQUEST_CONTENT,
-                    Intent(appContext, MainActivity::class.java)
-                        .setAction(Intent.ACTION_VIEW)
-                        .setData(),
-                    PendingIntent.FLAG_UPDATE_CURRENT
-                )
-            )
             .setAutoCancel(true)
             .build()
     }
@@ -50,10 +41,32 @@ class NotificationManager() {
         notificationManager.notify("", 1, notification)
     }
 
+    private fun createTitleNotification(procedures: List<Procedure>) : String {
+        val title = StringBuilder()
+
+        title
+                .append("B")
+                .append("10:05")
+                .append(" - ")
+                .append("4")
+                .append("процедуры")
+
+        return title.toString()
+    }
+
+    private fun createContentTextNotification(persons: List<Person>, procedures: List<Procedure>) : String {
+        val contentText = StringBuilder()
+
+        contentText
+                .append("Даше")
+                .append(" : ")
+                .append("полоскание горла")
+
+        return contentText.toString()
+    }
+
     companion object {
         private const val CHANNEL_NEW_PROCEDURES = "new procedures"
-
-        private const val REQUEST_CONTENT = 1
     }
 
     object Singleton{
