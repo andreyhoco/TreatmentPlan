@@ -2,7 +2,6 @@ package ru.andreyhoco.treatmentplan.notification
 
 import android.app.Notification
 import android.content.Context
-import android.util.Log
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -16,7 +15,7 @@ import kotlin.text.StringBuilder
 
 class NotificationManager(context: Context) {
 //TODO нужно пробросить контекст.
-    //    private val appContext = App.appContext
+//        private val appContext = App.appContext
     private val appContext = context
     private val notificationManager = NotificationManagerCompat.from(appContext)
 
