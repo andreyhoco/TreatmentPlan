@@ -6,7 +6,7 @@ data class Procedure(
     val title: String,
     val person: Person,
     val note: String,
-    val timesOfTaking: List<Long>,
+    val timesOfIntake: List<TimeOfIntake>,
     val startDate: Long,
     val endDate: Long
 )
