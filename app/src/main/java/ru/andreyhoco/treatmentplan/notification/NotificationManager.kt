@@ -1,8 +1,6 @@
 package ru.andreyhoco.treatmentplan.notification
 
 import android.app.Notification
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -11,10 +9,8 @@ import androidx.core.app.Person
 import ru.andreyhoco.treatmentplan.App
 import ru.andreyhoco.treatmentplan.R
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
+import ru.andreyhoco.treatmentplan.repository.modelEntities.ProcedureTimeGroup
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeFormatter.ofPattern
 import java.util.*
 import kotlin.text.StringBuilder
 
@@ -31,13 +27,14 @@ class NotificationManager() {
         }
     }
 
-    fun createNotification(persons: List<Person>, procedures: List<Procedure>) : Notification {
+    fun createNotification(persons: List<Person>, procedureTimeGroup: ProcedureTimeGroup)
+            : Notification {
         return NotificationCompat.Builder(appContext, CHANNEL_NEW_PROCEDURES)
             .setContentTitle(
-                    createTitleNotification(procedures)
+                    createTitleNotification(procedureTimeGroup)
             )
             .setContentText(
-                    createContentTextNotification(persons, procedures)
+                    createContentTextNotification(persons, procedureTimeGroup)
             )
             .setStyle(NotificationCompat.BigTextStyle())
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -49,34 +46,35 @@ class NotificationManager() {
         notificationManager.notify("", 1, notification)
     }
 
-    private fun createTitleNotification(procedures: List<Procedure>) : String {
+    private fun createTitleNotification(procedureTimeGroup: ProcedureTimeGroup) : String {
         val title = StringBuilder()
 
         title
                 .append(appContext.getString(R.string.V))
                 .append(
-                        getTimesOfTakingProcedure(procedures)
+                        getTimesOfTakingProcedure(procedureTimeGroup)
                 )
                 .append(appContext.getString(R.string.dash))
-                .append(procedures.size)
+                .append(procedureTimeGroup.procedures.size)
                 .append(appContext.getString(R.string.procedure))
         //TODO разобраться со склонениями слова "процедура"
 
         return title.toString()
     }
 
-    private fun getTimesOfTakingProcedure(procedures: List<Procedure>) : String {
+    private fun getTimesOfTakingProcedure(procedureTimeGroup: ProcedureTimeGroup) : String {
         val timeOfTaking = StringBuilder()
 
         val formatter = SimpleDateFormat("HH:MM", Locale.ENGLISH)
 
-        if (procedures.isNotEmpty()) {
-            timeOfTaking.append(formatter.parse(procedures[0].timesOfTaking[0].toString()))
+        if (procedureTimeGroup.procedures.isNotEmpty()) {
+            timeOfTaking.append(formatter.parse(procedureTimeGroup.procedures[0].toString()))
         }
         return timeOfTaking.toString()
     }
 
-    private fun createContentTextNotification(persons: List<Person>, procedures: List<Procedure>) : String {
+    private fun createContentTextNotification(persons: List<Person>,
+                                              procedureTimeGroup: ProcedureTimeGroup) : String {
         val contentText = StringBuilder()
 
         contentText
