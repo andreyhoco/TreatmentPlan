@@ -19,14 +19,16 @@ class NotificationManager(context: Context) {
     private val appContext = context
     private val notificationManager = NotificationManagerCompat.from(appContext)
 
-//    init {
-//        if (notificationManager.getNotificationChannel(CHANNEL_NEW_PROCEDURES) == null) {
-//            notificationManager.createNotificationChannel(
-//                NotificationChannelCompat.Builder(CHANNEL_NEW_PROCEDURES, IMPORTANCE_DEFAULT)
-//                    .build()
-//            )
-//        }
-//    }
+    init {
+        if (notificationManager.getNotificationChannel(CHANNEL_NEW_PROCEDURES) == null) {
+            notificationManager.createNotificationChannel(
+                NotificationChannelCompat.Builder(CHANNEL_NEW_PROCEDURES, IMPORTANCE_DEFAULT)
+                    .setName("sdf")
+                    .setDescription(";liu")
+                    .build()
+            )
+        }
+    }
 
     fun createNotification(procedureTimeGroup: ProcedureTimeGroup)
             : Notification {
