@@ -13,7 +13,6 @@ interface ProcedureDao {
     suspend fun insertProcedures(procedures: List<ProcedureEntity>)
 
     @Query("SELECT * FROM Procedures WHERE procedure_id == :procedureId")
-    @Transaction
     fun getProcedureById(procedureId: Long): Flow<ProcedureEntity>
 
     @Query("SELECT * FROM Procedures")

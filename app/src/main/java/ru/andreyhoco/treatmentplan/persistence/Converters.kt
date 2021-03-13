@@ -1,17 +1,21 @@
 package ru.andreyhoco.treatmentplan.persistence
 
 import androidx.room.TypeConverter
+import ru.andreyhoco.treatmentplan.repository.modelEntities.TimeOfIntake
 
 class Converters {
     @TypeConverter
-    fun fromListOfLong(list: List<Long>): String {
-        val newStr = list.joinToString(separator = "|")
-        return newStr
+    fun fromListOfTimeOfIntake(list: List<TimeOfIntake>): String {
+        return list.joinToString(separator = "|")
     }
 
     @TypeConverter
-    fun fromString(stringWithList: String): List<Long> {
-        val list = stringWithList.split("|").map { it.toLong() }
-        return list
+    fun fromStringToListTimeOfIntake(string: String): List<TimeOfIntake> {
+        return string.split("|").map {
+            TimeOfIntake(
+                it.substringAfter("*").toLong(),
+                it.substringBefore("*").toBoolean()
+            )
+        }
     }
 }

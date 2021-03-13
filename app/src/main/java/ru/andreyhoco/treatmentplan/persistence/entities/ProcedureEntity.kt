@@ -2,6 +2,7 @@ package ru.andreyhoco.treatmentplan.persistence.entities
 
 import androidx.room.*
 import ru.andreyhoco.treatmentplan.persistence.TreatmentPlanDbContract
+import ru.andreyhoco.treatmentplan.repository.modelEntities.TimeOfIntake
 
 @Entity(
     tableName = TreatmentPlanDbContract.Procedures.TABLE_NAME,
@@ -30,7 +31,7 @@ data class ProcedureEntity(
     val note: String,
 
     @ColumnInfo(name = TreatmentPlanDbContract.Procedures.COLUMN_NAME_TIMES_OF_INTAKE)
-    val timesOfIntake: List<Long>,
+    val timesOfIntake: List<TimeOfIntake>,
 
     @ColumnInfo(name = TreatmentPlanDbContract.Procedures.COLUMN_NAME_START_DATE)
     val startDate: Long,

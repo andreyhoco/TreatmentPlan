@@ -14,7 +14,6 @@ import ru.andreyhoco.treatmentplan.repository.modelEntities.ProcedureTimeGroup
 import ru.andreyhoco.treatmentplan.repository.modelEntities.TimeOfIntake
 
 class ProcedureAndPersonRepositoryImp(
-        private val appContext: Context,
         private val appDatabase: TreatmentPlanDatabase
 ) : ProcedureAndPersonRepository {
     private val personDao = appDatabase.personDao
@@ -62,31 +61,33 @@ class ProcedureAndPersonRepositoryImp(
     }
 
     override suspend fun insertProcedure(procedure: Procedure) {
-        TODO("Not yet implemented")
+        procedureDao.insert(procedure.toProcedureEntity(procedure.person))
+
+        TODO("Добавить пуск воркера с нотификацией")
     }
 
     override suspend fun deleteAllPersons() {
-        TODO("Not yet implemented")
+        personDao.deleteAllPersons()
     }
 
     override suspend fun deleteAllProcedures() {
-        TODO("Not yet implemented")
+        procedureDao.deleteAllProcedures()
     }
 
     override suspend fun deletePersonsByIds(ids: List<Long>) {
-        TODO("Not yet implemented")
+        personDao.deletePersonsByIds(ids)
     }
 
     override suspend fun deletePersonsByIds(id: Long) {
-        TODO("Not yet implemented")
+        personDao.deletePersonsByIds(listOf(id))
     }
 
     override suspend fun deleteProceduresByIds(id: Long) {
-        TODO("Not yet implemented")
+        procedureDao.deleteProceduresByIds(listOf(id))
     }
 
     override suspend fun deleteProceduresByIds(ids: List<Long>) {
-        TODO("Not yet implemented")
+        procedureDao.deleteProceduresByIds(ids)
     }
 
     private fun Person.toPersonEntity(): PersonEntity {
@@ -112,9 +113,7 @@ class ProcedureAndPersonRepositoryImp(
             title = this.title,
             personId = person.id,
             note = this.note,
-            timesOfIntake = this.timesOfIntake.map {
-                it.timeOfTakes
-            },
+            timesOfIntake = this.timesOfIntake,
             startDate = this.startDate,
             endDate = this.endDate
         )
@@ -127,12 +126,7 @@ class ProcedureAndPersonRepositoryImp(
             title = this.title,
             person = person,
             note = this.note,
-            timesOfIntake = this.timesOfIntake.map {
-                TimeOfIntake(
-                    timeOfTakes = it,
-                    isDone = false
-                )
-            },
+            timesOfIntake = this.timesOfIntake,
             startDate = this.startDate,
             endDate = this.endDate
         )

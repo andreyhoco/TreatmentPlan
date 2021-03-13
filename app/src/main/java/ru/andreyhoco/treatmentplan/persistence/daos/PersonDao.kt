@@ -26,4 +26,7 @@ interface PersonDao {
 
     @Query("DELETE FROM Persons WHERE person_id IN (:personIds)")
     suspend fun deletePersonsByIds(personIds: List<Long>)
+
+    @Query("DELETE FROM Persons")
+    suspend fun deleteAllPersons()
 }

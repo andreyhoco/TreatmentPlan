@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import ru.andreyhoco.treatmentplan.R
 import ru.andreyhoco.treatmentplan.persistence.Converters
+import ru.andreyhoco.treatmentplan.repository.modelEntities.TimeOfIntake
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
