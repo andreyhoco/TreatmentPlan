@@ -14,7 +14,7 @@ interface ProcedureDao {
 
     @Query("SELECT * FROM Procedures WHERE procedure_id == :procedureId")
     @Transaction
-    fun getProcedureWithPersonById(procedureId: Long): Flow<ProcedureEntity>
+    fun getProcedureById(procedureId: Long): Flow<ProcedureEntity>
 
     @Query("SELECT * FROM Procedures")
     fun getAllProcedures(): Flow<List<ProcedureEntity>>

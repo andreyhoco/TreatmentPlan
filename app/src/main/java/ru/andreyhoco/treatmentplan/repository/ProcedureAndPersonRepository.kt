@@ -6,7 +6,7 @@ import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
 import ru.andreyhoco.treatmentplan.repository.modelEntities.ProcedureTimeGroup
 
 interface ProcedureAndPersonRepository {
-    suspend fun getProcedureById(id: Int) : Flow<Procedure>
+    suspend fun getProcedureById(id: Long) : Flow<Procedure>
 
     suspend fun getProcedureGroupsBetweenDates(firstDate: Long, secondDate: Long) : Flow<List<ProcedureTimeGroup>>
 

@@ -18,6 +18,9 @@ interface PersonDao {
     @Query("SELECT * FROM Persons WHERE person_id == :id")
     fun getPersonById(id: Long): Flow<PersonEntity>
 
+    @Query("SELECT * FROM Persons WHERE person_id == :id")
+    suspend fun getOneShotPersonById(id: Long): PersonEntity
+
     @Query("SELECT * FROM Persons")
     fun getAllPersons(): Flow<List<PersonEntity>>
 
