@@ -8,7 +8,6 @@ import androidx.core.app.NotificationManagerCompat.IMPORTANCE_DEFAULT
 import androidx.core.app.Person
 import ru.andreyhoco.treatmentplan.App
 import ru.andreyhoco.treatmentplan.R
-import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
 import ru.andreyhoco.treatmentplan.repository.modelEntities.ProcedureTimeGroup
 import java.text.SimpleDateFormat
 import java.util.*
@@ -77,10 +76,13 @@ class NotificationManager() {
                                               procedureTimeGroup: ProcedureTimeGroup) : String {
         val contentText = StringBuilder()
 
-        contentText
-                .append("Даше")
-                .append(appContext.getString(R.string.colon))
-                .append("полоскание горла")
+        procedureTimeGroup.procedures.forEach {
+            contentText
+                    .append(it.person)
+                    .append(appContext.getString(R.string.colon))
+                    .append(it.title)
+                    .append(System.getProperty("line.separator"))
+        }
 
         return contentText.toString()
     }
