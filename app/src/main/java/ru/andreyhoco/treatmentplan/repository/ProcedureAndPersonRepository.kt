@@ -3,14 +3,14 @@ package ru.andreyhoco.treatmentplan.repository
 import kotlinx.coroutines.flow.Flow
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Person
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
-import ru.andreyhoco.treatmentplan.repository.modelEntities.ProcedureTimeGroup
+import ru.andreyhoco.treatmentplan.repository.modelEntities.IntakeProcedureTimeGroup
 
 interface ProcedureAndPersonRepository {
     suspend fun getProcedureById(id: Long) : Flow<Procedure>
 
-    suspend fun getProcedureGroupsBetweenDates(firstDate: Long, secondDate: Long) : Flow<List<ProcedureTimeGroup>>
+    suspend fun getProcedureGroupsBetweenDates(firstDate: Long, secondDate: Long) : Flow<List<IntakeProcedureTimeGroup>>
 
-    suspend fun getProcedureGroupsBetweenDatesOneShot(firstDate: Long, secondDate: Long) : List<ProcedureTimeGroup>
+    suspend fun getProcedureGroupsBetweenDatesOneShot(firstDate: Long, secondDate: Long) : List<IntakeProcedureTimeGroup>
 
     suspend fun getAllProcedures() : Flow<List<Procedure>>
 
