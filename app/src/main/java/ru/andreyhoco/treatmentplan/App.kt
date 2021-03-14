@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.work.Configuration
 import androidx.work.DelegatingWorkerFactory
+import androidx.work.WorkManager
 import ru.andreyhoco.treatmentplan.repository.FakeRepository
 import ru.andreyhoco.treatmentplan.workmanager.ParentWorkerFactory
 

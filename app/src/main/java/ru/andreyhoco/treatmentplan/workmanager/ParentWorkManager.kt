@@ -30,11 +30,11 @@ class ParentWorkManager(appContext: Context, workerParameters: WorkerParameters,
         val intakesProcedureTimeGroup =
                 workerRepository.getProcedureGroupsBetweenDatesOneShot(1,1)
         intakesProcedureTimeGroup.forEach {
-            instanceChildWorkManager(it)
+            instanceShowNotificationWorkManager(it)
         }
     }
 
-    private fun instanceChildWorkManager(intakeProcedureTimeGroup: IntakeProcedureTimeGroup) {
+    private fun instanceShowNotificationWorkManager(intakeProcedureTimeGroup: IntakeProcedureTimeGroup) {
         ShowNotificationWorkManager(applicationContext, workerParams)
 
         val data = Data.Builder()
