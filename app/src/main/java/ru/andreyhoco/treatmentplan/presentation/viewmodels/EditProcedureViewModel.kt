@@ -40,20 +40,14 @@ class EditProcedureViewModel(
                 .map { timeOfIntake:TimeOfIntake -> timeOfIntake.timeOfTakes }
                 .filter { timeOfTakes: Long -> timeOfTakes == time }
 
-            Log.d("TApp", "list size: ${sameTimeList.size}")
-
             if (sameTimeList.isEmpty()) {
                 val newList: MutableList<TimeOfIntake> = mutableListOf()
 
-                Log.d("TApp", "new list size: ${newList.size}")
                 newList.addAll(procedure.timesOfIntake)
-                Log.d("TApp", "new list size: ${newList.size}")
                 newList.add(TimeOfIntake(time, false))
-                Log.d("TApp", "new list size: ${newList.size}")
                 newList.sortBy { timeOfIntake ->
                     timeOfIntake.timeOfTakes
                 }
-                Log.d("TApp", "new list size: ${newList.size}")
 
                 procedure.timesOfIntake = newList.toList()
             }
@@ -64,10 +58,10 @@ class EditProcedureViewModel(
         procedure?.let { proc ->
             val newList: MutableList<TimeOfIntake> = mutableListOf()
 
-            newList.addAll(proc.timesOfIntake)
+            newList.addAll(procedure.timesOfIntake)
             newList.remove(timeOfIntake)
 
-            proc.timesOfIntake = newList
+            procedure.timesOfIntake = newList.toList()
         }
     }
 

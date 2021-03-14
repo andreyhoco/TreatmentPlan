@@ -17,7 +17,10 @@ class DatePickerFragment:
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val c = Calendar.getInstance()
 
-        key = savedInstanceState?.getString(STATE_KEY, KEY_RESULT_DATE_START) ?: KEY_RESULT_DATE_END
+        if (key == null) {
+            key = savedInstanceState?.getString(STATE_KEY, KEY_RESULT_DATE_START)
+                ?: KEY_RESULT_DATE_END
+        }
 
         return DatePickerDialog(
             requireContext(),
