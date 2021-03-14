@@ -244,6 +244,8 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
 
     override fun onDeleteItemClick(timeOfIntake: TimeOfIntake) {
         viewModel.deleteTimeOfIntake(timeOfIntake, procedure)
+
+        updateTimesAdapter(procedure?.timesOfIntake ?: emptyList())
     }
 
     private fun onTimeSet(key: String, bundle: BaseBundle) {
