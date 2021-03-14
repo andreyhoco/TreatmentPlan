@@ -13,6 +13,7 @@ import ru.andreyhoco.treatmentplan.repository.ProcedureAndPersonRepository
 import ru.andreyhoco.treatmentplan.repository.modelEntities.IntakeProcedureTimeGroup
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
 import ru.andreyhoco.treatmentplan.repository.modelEntities.TimeOfIntake
+import timber.log.Timber
 import java.util.*
 
 class ProceduresListViewModel(
@@ -24,15 +25,19 @@ class ProceduresListViewModel(
 
     fun loadProceduresByDate() {
         val calendar = Calendar.getInstance()
-//        val year = calendar.get(Calendar.YEAR)
-//        val month = calendar.get(Calendar.MONTH)
-//        val day = calendar.get(Calendar.MONTH)
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-//        calendar.set(year, month, day, 0, 0, 0)
+        Timber.plant(Timber.DebugTree())
+
+        calendar.set(year, month, day, 0, 0, 1)
+        val beginOfDay = calendar.time
+        Timber.d("Start of curr day: $beginOfDay")
 
 //        val startOfCurrentDay = calendar.timeInMillis
-        val startOfCurrentDay = 0L
-//        calendar.set(year, month, day, 23, 59, 59)
+        val startOfCurrentDay = calendar.timeInMillis
+        calendar.set(year, month, day, 23, 59, 59)
 
         val endOfCurrentDay = calendar.timeInMillis
         val end = calendar.time
