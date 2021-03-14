@@ -232,7 +232,8 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
     private fun setupPersonsAdapter(persons: List<Person>) {
         val adapter = ArrayAdapter<String>(
                 requireContext(),
-                android.R.layout.simple_spinner_item,
+                //android.R.layout.simple_spinner_item,
+                R.layout.item_person,
                 persons.map { person ->
                     person.name
                 }
