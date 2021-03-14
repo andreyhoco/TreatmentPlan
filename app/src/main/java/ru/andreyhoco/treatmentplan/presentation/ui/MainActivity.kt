@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     //TODO Тестовый метод.
     private fun runWorkManager() {
+        //TODO поменять на периодичный.
         val workRequest = OneTimeWorkRequest.Builder(
                 ParentWorkManager::class.java
         )
