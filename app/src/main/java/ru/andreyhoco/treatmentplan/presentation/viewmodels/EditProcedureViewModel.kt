@@ -61,4 +61,13 @@ class EditProcedureViewModel : ViewModel() {
             proc.timesOfIntake = newList
         }
     }
+
+    fun saveProcedure(procedure: Procedure?) {
+        procedure?.let { proc ->
+            viewModelScope.launch {
+                repository.deleteProceduresByIds(proc.id)
+                repository.insertProcedure(proc)
+            }
+        }
+    }
 }

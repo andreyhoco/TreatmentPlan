@@ -3,6 +3,8 @@ package ru.andreyhoco.treatmentplan.presentation.ui
 import android.app.AlertDialog
 import android.os.BaseBundle
 import android.os.Bundle
+import android.text.Editable
+import android.text.SpannableStringBuilder
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -65,7 +67,7 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupViewElements(view)
-        setupOnClickListeners()
+        setupEventListeners()
 
         setupProcedure()
 
@@ -74,6 +76,8 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
         setupAdapters()
 
         viewModel.persons.observe(viewLifecycleOwner, this::setupPersonsAdapter)
+
+        setupFieldsFromProcedure()
     }
 
     private fun addPerson() {
@@ -120,7 +124,7 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
         btnSave = view.findViewById(R.id.btn_save)
     }
 
-    private fun setupOnClickListeners() {
+    private fun setupEventListeners() {
         ibAddPerson.setOnClickListener { addPerson() }
 
         sPerson.setOnItemClickListener { parent, view, position, id ->
@@ -144,6 +148,25 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
         tvDateEnd.setOnClickListener {
             val dialog = DatePickerFragment.newInstance(DatePickerFragment.KEY_RESULT_DATE_END)
             dialog.show(requireActivity().supportFragmentManager, null)
+        }
+
+        btnSave.setOnClickListener {
+            viewModel.saveProcedure(procedure)
+            if (parentFragmentManager.backStackEntryCount > 0) {
+                parentFragmentManager.popBackStack()
+            }
+        }
+
+        etTitle.setOnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                procedure?.title = etTitle.text.toString()
+            }
+        }
+
+        etNotes.setOnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                procedure?.note = etNotes.text.toString()
+            }
         }
     }
 
@@ -214,16 +237,14 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
     private fun onDateStartSet(key: String, bundle: BaseBundle) {
         procedure?.let { proc ->
             proc.startDate = getDateFromBundle(bundle)
-
-            tvDateStart.text = "${format("dd.MM.yyyy", proc.startDate)}"
+            setupFieldFromDateStart()
         }
     }
 
     private fun onDateEndSet(key: String, bundle: BaseBundle) {
         procedure?.let { proc ->
             proc.endDate = getDateFromBundle(bundle)
-
-            tvDateEnd.text = "${format("dd.MM.yyyy", proc.endDate)}"
+            setupFieldFromDateEnd()
         }
     }
 
@@ -240,6 +261,39 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
         )
 
         return c.timeInMillis
+    }
+
+    private fun setupFieldsFromProcedure() {
+        procedure?.let { proc ->
+            if (proc.person.name.isNotEmpty()) {
+                val arrayAdapter = (sPerson.adapter as ArrayAdapter<String>)
+                var pos =
+                    if (arrayAdapter.getPosition(proc.person.name) == -1) {
+                        arrayAdapter.count - 1
+                    } else {
+                        0
+                    }
+
+                if (arrayAdapter.count > 0) {
+                    sPerson.setSelection(pos)
+                }
+            }
+        }
+
+        etTitle.text = SpannableStringBuilder(procedure?.title ?: "")
+
+        setupFieldFromDateStart()
+        setupFieldFromDateEnd()
+
+        etNotes.text = SpannableStringBuilder(procedure?.note ?: "")
+    }
+
+    private fun setupFieldFromDateStart() {
+        tvDateStart.text = "${format("dd.MM.yyyy", procedure?.startDate ?: 0)}"
+    }
+
+    private fun setupFieldFromDateEnd() {
+        tvDateEnd.text = "${format("dd.MM.yyyy", procedure?.endDate ?: 0)}"
     }
 
     companion object {
