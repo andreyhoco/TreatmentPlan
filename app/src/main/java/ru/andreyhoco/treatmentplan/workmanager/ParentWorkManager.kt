@@ -11,10 +11,9 @@ import ru.andreyhoco.treatmentplan.repository.modelEntities.IntakeProcedureTimeG
 import java.lang.System.currentTimeMillis
 import java.util.concurrent.TimeUnit
 
-class ParentWorkManager(appContext: Context, workerParameters: WorkerParameters,
+class ParentWorkManager(private val appContext: Context, private val workerParams: WorkerParameters,
                         repository: ProcedureAndPersonRepository) :
-    CoroutineWorker(appContext, workerParameters) {
-    private val workerParams = workerParameters
+    CoroutineWorker(appContext, workerParams) {
     private val workerRepository = repository
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO){
