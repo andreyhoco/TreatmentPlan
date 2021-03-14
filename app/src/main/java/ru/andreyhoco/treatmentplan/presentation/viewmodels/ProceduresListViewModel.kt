@@ -24,24 +24,25 @@ class ProceduresListViewModel(
 
     fun loadProceduresByDate() {
         val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.MONTH)
+//        val year = calendar.get(Calendar.YEAR)
+//        val month = calendar.get(Calendar.MONTH)
+//        val day = calendar.get(Calendar.MONTH)
 
 //        calendar.set(year, month, day, 0, 0, 0)
-        calendar.timeInMillis = 0
 
+//        val startOfCurrentDay = calendar.timeInMillis
         val startOfCurrentDay = 0L
-
-        calendar.set(year, month, day, 23, 59, 59)
+//        calendar.set(year, month, day, 23, 59, 59)
 
         val endOfCurrentDay = calendar.timeInMillis
+        val end = calendar.time
+        Log.d("!!!!!!!!!!!", "$end")
 
         viewModelScope.launch {
             repository
                 .getProcedureGroupsBetweenDates(startOfCurrentDay, endOfCurrentDay)
                 .collect { listOfIntakeProcedureTimeGroup ->
-                    Log.d("PROCEDURES", "$listOfIntakeProcedureTimeGroup")
+                    Log.d("PROCEDURES", "${listOfIntakeProcedureTimeGroup.size}")
                     onProceduresLoaded(listOfIntakeProcedureTimeGroup)
                 }
         }

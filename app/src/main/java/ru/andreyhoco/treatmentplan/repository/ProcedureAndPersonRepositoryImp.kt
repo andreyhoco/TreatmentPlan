@@ -71,8 +71,10 @@ class ProcedureAndPersonRepositoryImp(
         secondDate: Long
     ): Flow<List<IntakeProcedureTimeGroup>> {
         return procedureDao.getProceduresBetweenDates(firstDate, secondDate).map { entitiesList ->
+            Log.d("FIX", "${entitiesList.map { it.id }}")
             val proceduresList = entitiesList.map {
                 Log.d("FIX", "${entitiesList.map { it.id }}")
+                Log.d("FIX", "${entitiesList.size}")
                 val person = personDao.getOneShotPersonById(it.personId).toPerson()
                 it.toProcedure(person)
             }
