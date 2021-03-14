@@ -3,6 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- String used for Notification -->
+    <string name="spinner_prompt">Select or add person</string>
     <string name="V">В\u0020</string>
     <string name="dash">\u0020\u2013\u0020</string>
     <string name="procedure">\u0020процедуры</string>

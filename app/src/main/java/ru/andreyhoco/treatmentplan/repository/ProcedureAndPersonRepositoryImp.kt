@@ -30,6 +30,13 @@ class ProcedureAndPersonRepositoryImp(
         }
     }
 
+    override suspend fun getAllProceduresOneShot(): List<Procedure> {
+        return procedureDao.getAllProceduresOneShot().map { procedureEntity ->
+                val personEntity = personDao.getOneShotPersonById(procedureEntity.personId)
+                procedureEntity.toProcedure(personEntity.toPerson())
+            }
+    }
+
     override fun getPersonById(id: Long): Flow<Person> {
         return personDao.getPersonById(id).map { personEntity ->
                 personEntity.toPerson()

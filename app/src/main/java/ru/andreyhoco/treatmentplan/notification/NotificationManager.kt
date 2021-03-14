@@ -6,7 +6,6 @@ import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationManagerCompat.IMPORTANCE_DEFAULT
-import ru.andreyhoco.treatmentplan.App
 import ru.andreyhoco.treatmentplan.R
 import ru.andreyhoco.treatmentplan.repository.modelEntities.IntakeProcedureTimeGroup
 import java.text.SimpleDateFormat

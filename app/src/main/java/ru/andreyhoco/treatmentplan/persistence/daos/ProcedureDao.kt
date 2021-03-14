@@ -18,6 +18,9 @@ interface ProcedureDao {
     @Query("SELECT * FROM Procedures")
     fun getAllProcedures(): Flow<List<ProcedureEntity>>
 
+    @Query("SELECT * FROM Procedures")
+    fun getAllProceduresOneShot(): List<ProcedureEntity>
+
     @Query(
 "SELECT * From Procedures WHERE (:firstDate BETWEEN start_date AND end_date)" +
         " OR (:secondDate BETWEEN start_date AND end_date)"

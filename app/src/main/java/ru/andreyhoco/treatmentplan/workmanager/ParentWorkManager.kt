@@ -8,7 +8,9 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import ru.andreyhoco.treatmentplan.repository.ProcedureAndPersonRepository
 import ru.andreyhoco.treatmentplan.repository.modelEntities.IntakeProcedureTimeGroup
+import timber.log.Timber
 import java.lang.System.currentTimeMillis
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class ParentWorkManager(private val appContext: Context, private val workerParams: WorkerParameters,
@@ -26,8 +28,18 @@ class ParentWorkManager(private val appContext: Context, private val workerParam
     }
 
     private suspend fun loadData() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        calendar.set(year, month, day, 0, 0, 1)
+        val startOfCurrentDay = calendar.timeInMillis
+        calendar.set(year, month, day, 23, 59, 59)
+        val endOfCurrentDay = calendar.timeInMillis
+
         val intakesProcedureTimeGroup =
-                workerRepository.getProcedureGroupsBetweenDatesOneShot(1,1)
+                workerRepository.getProcedureGroupsBetweenDatesOneShot(startOfCurrentDay,endOfCurrentDay)
         intakesProcedureTimeGroup.forEach {
             instanceShowNotificationWorkManager(it)
         }

@@ -4,18 +4,20 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.WorkManager
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.andreyhoco.treatmentplan.repository.ProcedureAndPersonRepository
-import ru.andreyhoco.treatmentplan.repository.modelEntities.IntakeProcedure
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Person
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
 import ru.andreyhoco.treatmentplan.repository.modelEntities.TimeOfIntake
+import ru.andreyhoco.treatmentplan.workmanager.WorkRepository
 import java.util.*
 
 class EditProcedureViewModel(
-        private val repository: ProcedureAndPersonRepository
+        private val repository: ProcedureAndPersonRepository,
+        private val workManager: WorkManager
 ): ViewModel() {
     var procedure = MutableLiveData<Procedure?>(null)
     var persons = MutableLiveData<List<Person>>(mutableListOf())
@@ -85,7 +87,19 @@ class EditProcedureViewModel(
                     Log.d("SAVE","$intakeDate")
                 }
 
+                if (repository.getAllProceduresOneShot().isEmpty()) {
+                    val workRepository = WorkRepository()
+
+                    workManager.cancelAllWorkByTag(WorkRepository.UNIQUE_UPDATE_TAG)
+                    workManager.enqueueUniquePeriodicWork(
+                        WorkRepository.PERIODIC_PROCEDURE_NOTIFICATION,
+                        ExistingPeriodicWorkPolicy.KEEP,
+                        workRepository.periodicStartNotificationWorker
+                    )
+                }
+
                 repository.insertProcedure(proc)
+
             }
         }
     }

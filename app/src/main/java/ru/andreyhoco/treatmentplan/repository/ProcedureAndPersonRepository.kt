@@ -14,6 +14,8 @@ interface ProcedureAndPersonRepository {
 
     fun getAllProcedures(): Flow<List<Procedure>>
 
+    suspend fun getAllProceduresOneShot(): List<Procedure>
+
     fun getPersonById(id: Long): Flow<Person>
 
     fun getAllPerson() : Flow<List<Person>>
