@@ -192,15 +192,32 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
         }
 
         if (procedure == null) {
+            val c = Calendar.getInstance()
+            val h = c.get(Calendar.HOUR_OF_DAY) + 1
+
+            c.set(Calendar.HOUR_OF_DAY, 0)
+            c.set(Calendar.MINUTE, 0)
+            c.set(Calendar.SECOND, 0)
+            c.set(Calendar.MILLISECOND, 0)
+
+            val currentDay = c.timeInMillis
+
+            c.set(Calendar.YEAR, 0)
+            c.set(Calendar.MONTH, 0)
+            c.set(Calendar.DAY_OF_MONTH, 0)
+            c.set(Calendar.HOUR_OF_DAY, h)
+
+            val nextHour = c.timeInMillis
+
             procedure = Procedure(
                 id = 0,
                 imageId = 0,
                 title = "",
                 person = Person(0, "", 0),
                 note = "",
-                timesOfIntake = emptyList(),
-                startDate = 0,
-                endDate = 0
+                timesOfIntake = listOf(TimeOfIntake(nextHour, false)),
+                startDate = currentDay,
+                endDate = currentDay
             )
 
             viewModel.procedure.value = procedure

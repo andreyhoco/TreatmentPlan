@@ -16,6 +16,7 @@ import ru.andreyhoco.treatmentplan.presentation.viewmodels.ViewModelFactory
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Person
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
 import ru.andreyhoco.treatmentplan.repository.modelEntities.TimeOfIntake
+import java.util.*
 
 class ProceduresListFragment :
     Fragment(),
@@ -55,6 +56,23 @@ class ProceduresListFragment :
         viewModel.selectedProcedure.observe(viewLifecycleOwner, this::editProcedure)
 
         btnAdd.setOnClickListener {
+            val c = Calendar.getInstance()
+            val h = c.get(Calendar.HOUR_OF_DAY) + 1
+
+            c.set(Calendar.HOUR_OF_DAY, 0)
+            c.set(Calendar.MINUTE, 0)
+            c.set(Calendar.SECOND, 0)
+            c.set(Calendar.MILLISECOND, 0)
+
+            val currentDay = c.timeInMillis
+
+            c.set(Calendar.YEAR, 0)
+            c.set(Calendar.MONTH, 0)
+            c.set(Calendar.DAY_OF_MONTH, 0)
+            c.set(Calendar.HOUR_OF_DAY, h)
+
+            val nextHour = c.timeInMillis
+
             editProcedure(
                 Procedure(
                     id = 0,
@@ -62,9 +80,9 @@ class ProceduresListFragment :
                     title = "",
                     person = Person(0, "", 0),
                     note = "",
-                    timesOfIntake = emptyList(),
-                    startDate = 0,
-                    endDate = 0
+                    timesOfIntake = listOf(TimeOfIntake(nextHour, false)),
+                    startDate = currentDay,
+                    endDate = currentDay
                 )
             )
         }
