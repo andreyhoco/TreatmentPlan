@@ -137,11 +137,16 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
     private fun setupEventListeners() {
         ibAddPerson.setOnClickListener { addPerson() }
 
-        sPerson.setOnItemClickListener { parent, view, position, id ->
-            val persons = viewModel.persons.value ?: listOf()
+        sPerson.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val persons = viewModel.persons.value ?: listOf()
 
-            if (persons.size > position) {
-                procedure?.person = persons[position]
+                if (persons.size > position) {
+                    procedure?.person = persons[position]
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }
 
@@ -304,6 +309,12 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
 
     private fun setupFieldFromDateEnd() {
         tvDateEnd.text = "${format("dd.MM.yyyy", procedure?.endDate ?: 0)}"
+    }
+
+    private fun getCalendarFromTimeInMillis(timeInMillis: Long) {
+        val c = Calendar.getInstance()
+
+        c.timeInMillis = timeInMillis
     }
 
     companion object {
