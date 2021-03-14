@@ -11,9 +11,9 @@ import ru.andreyhoco.treatmentplan.repository.modelEntities.Person
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
 import ru.andreyhoco.treatmentplan.repository.modelEntities.TimeOfIntake
 
-class EditProcedureViewModel : ViewModel() {
-    private lateinit var repository: ProcedureAndPersonRepository
-
+class EditProcedureViewModel(
+        private val repository: ProcedureAndPersonRepository
+): ViewModel() {
     var procedure = MutableLiveData<Procedure?>(null)
     var persons = MutableLiveData<List<Person>>(mutableListOf())
 

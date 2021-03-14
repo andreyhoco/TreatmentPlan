@@ -11,10 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.andreyhoco.treatmentplan.R
+import ru.andreyhoco.treatmentplan.TreatmentPlanApp
 import ru.andreyhoco.treatmentplan.presentation.viewmodels.EditProcedureViewModel
+import ru.andreyhoco.treatmentplan.presentation.viewmodels.ViewModelFactory
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Person
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
 import ru.andreyhoco.treatmentplan.repository.modelEntities.TimeOfIntake
@@ -22,7 +26,13 @@ import java.lang.String.format
 import java.util.*
 
 class EditProcedureFragment : Fragment(), TimeItemClickListener {
-    private val viewModel = EditProcedureViewModel()
+    private val viewModel: EditProcedureViewModel by viewModels {
+        ViewModelFactory(
+                (requireActivity().application as TreatmentPlanApp)
+                        .appDi
+                        .procedureAndPersonRepository
+        )
+    }
 
     private var procedure: Procedure? = null
 
