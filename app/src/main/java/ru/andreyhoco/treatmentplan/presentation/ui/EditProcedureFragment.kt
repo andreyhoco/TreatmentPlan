@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.*
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -73,6 +74,7 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
         return inflater.inflate(R.layout.fragment_edit_procedure, container, false)
     }
 
@@ -167,6 +169,9 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
         }
 
         btnSave.setOnClickListener {
+            procedure?.title = etTitle.text.toString()
+            procedure?.note = etNotes.text.toString()
+
             viewModel.saveProcedure(procedure)
 
             if (parentFragmentManager.backStackEntryCount > 0) {
@@ -176,17 +181,17 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
 
         }
 
-        etTitle.setOnFocusChangeListener { v, hasFocus ->
-            if (!hasFocus) {
-                procedure?.title = etTitle.text.toString()
-            }
-        }
-
-        etNotes.setOnFocusChangeListener { v, hasFocus ->
-            if (!hasFocus) {
-                procedure?.note = etNotes.text.toString()
-            }
-        }
+//        etTitle.setOnFocusChangeListener { v, hasFocus ->
+//            if (!hasFocus) {
+//                procedure?.title = etTitle.text.toString()
+//            }
+//        }
+//
+//        etNotes.setOnFocusChangeListener { v, hasFocus ->
+//            if (!hasFocus) {
+//                procedure?.note = etNotes.text.toString()
+//            }
+//        }
     }
 
     private fun setupProcedure() {

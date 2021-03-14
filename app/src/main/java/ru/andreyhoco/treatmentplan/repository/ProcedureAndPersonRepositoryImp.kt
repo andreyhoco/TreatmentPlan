@@ -1,5 +1,6 @@
 package ru.andreyhoco.treatmentplan.repository
 
+import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -71,12 +72,12 @@ class ProcedureAndPersonRepositoryImp(
     ): Flow<List<IntakeProcedureTimeGroup>> {
         return procedureDao.getProceduresBetweenDates(firstDate, secondDate).map { entitiesList ->
             val proceduresList = entitiesList.map {
+                Log.d("FIX", "${entitiesList.map { it.id }}")
                 val person = personDao.getOneShotPersonById(it.personId).toPerson()
                 it.toProcedure(person)
             }
-            groupProceduresByTime(proceduresList).filter { timeGroup ->
-                (timeGroup.startTime >= firstDate) and (timeGroup.endTime <= secondDate)
-            }
+            groupProceduresByTime(proceduresList)
+
         }.flowOn(Dispatchers.IO)
     }
 
