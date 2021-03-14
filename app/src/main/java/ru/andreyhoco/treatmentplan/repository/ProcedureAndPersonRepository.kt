@@ -1,21 +1,36 @@
 package ru.andreyhoco.treatmentplan.repository
 
+import kotlinx.coroutines.flow.Flow
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Person
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
-import ru.andreyhoco.treatmentplan.repository.modelEntities.ProcedureTimeGroup
+import ru.andreyhoco.treatmentplan.repository.modelEntities.IntakeProcedureTimeGroup
 
 interface ProcedureAndPersonRepository {
-    fun getProcedureById(id: Int) : Procedure
+    fun getProcedureById(id: Long) : Flow<Procedure>
 
-    fun getProcedureGroupsByDate(date: Long) : List<ProcedureTimeGroup>
+    fun getProcedureGroupsBetweenDates(firstDate: Long, secondDate: Long) : Flow<List<IntakeProcedureTimeGroup>>
 
-    fun getAllProcedures() : List<Procedure>
+    suspend fun getProcedureGroupsBetweenDatesOneShot(firstDate: Long, secondDate: Long) : List<IntakeProcedureTimeGroup>
 
-    fun getPersonById(id: Long) : Person
+    fun getAllProcedures(): Flow<List<Procedure>>
 
-    fun getAllPerson() : List<Person>
+    fun getPersonById(id: Long): Flow<Person>
 
-    fun insertProcedure(procedure: Procedure)
+    fun getAllPerson() : Flow<List<Person>>
 
-    fun insertPerson(person: Person)
+    suspend fun insertProcedure(procedure: Procedure)
+
+    suspend fun insertPerson(person: Person)
+
+    suspend fun deletePersonsByIds(ids: List<Long>)
+
+    suspend fun deletePersonsByIds(id: Long)
+
+    suspend fun deleteAllPersons()
+
+    suspend fun deleteProceduresByIds(ids: List<Long>)
+
+    suspend fun deleteProceduresByIds(id: Long)
+
+    suspend fun deleteAllProcedures()
 }

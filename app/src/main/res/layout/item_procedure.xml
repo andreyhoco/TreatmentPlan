@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_procedure"
+        app:layout_constraintDimensionRatio="1"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"/>
+
+    <CheckBox
+        android:id="@+id/cb_done"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_person"
+        app:layout_constraintBottom_toBottomOf="@id/tv_procedure"
+        app:layout_constraintDimensionRatio="1"/>
+
+    <TextView
+        android:id="@+id/tv_person"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_icon"
+        app:layout_constraintEnd_toStartOf="@id/cb_done"
+        android:layout_marginTop="4dp"
+        tools:text="@tools:sample/lorem"/>
+
+    <TextView
+        android:id="@+id/tv_procedure"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_person"
+        app:layout_constraintStart_toEndOf="@id/iv_icon"
+        app:layout_constraintEnd_toStartOf="@id/cb_done"
+        tools:text="@tools:sample/lorem"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
