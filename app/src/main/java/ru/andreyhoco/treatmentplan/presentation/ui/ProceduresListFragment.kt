@@ -94,7 +94,7 @@ class ProceduresListFragment :
         procedure?.let { proc ->
             parentFragmentManager.beginTransaction().apply {
                 addToBackStack(null)
-                add(R.id.fcv_main, EditProcedureFragment.newInstance(proc))
+                replace(R.id.fcv_main, EditProcedureFragment.newInstance(proc))
                 commit()
             }
         }
