@@ -5,11 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ru.andreyhoco.treatmentplan.R
+import ru.andreyhoco.treatmentplan.TreatmentPlanApp
 import ru.andreyhoco.treatmentplan.presentation.viewmodels.ProceduresListViewModel
+import ru.andreyhoco.treatmentplan.presentation.viewmodels.ViewModelFactory
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Person
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
 import ru.andreyhoco.treatmentplan.repository.modelEntities.TimeOfIntake
@@ -17,7 +20,13 @@ import ru.andreyhoco.treatmentplan.repository.modelEntities.TimeOfIntake
 class ProceduresListFragment :
     Fragment(),
     ProcedureItemClickListener {
-    private val viewModel = ProceduresListViewModel()
+    private val viewModel: ProceduresListViewModel by viewModels {
+        ViewModelFactory(
+            (requireActivity().application as TreatmentPlanApp)
+                .appDi
+                .procedureAndPersonRepository
+        )
+    }
 
     private lateinit var proceduresListAdapter: ProceduresListAdapter
     private lateinit var recyclerView: RecyclerView
