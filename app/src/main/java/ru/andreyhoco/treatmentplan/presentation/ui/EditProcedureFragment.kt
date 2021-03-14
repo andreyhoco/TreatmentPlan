@@ -5,6 +5,7 @@ import android.os.BaseBundle
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -57,7 +58,7 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
 
     private lateinit var btnSave: Button
 
-    private var timeListAdapter: TimeListAdapter? = null
+    private lateinit var timeListAdapter: TimeListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -224,9 +225,21 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
     }
 
     private fun setupTimesAdapter(timesOfIntake: List<TimeOfIntake>) {
-        timeListAdapter = TimeListAdapter(timesOfIntake, this)
+        Log.d("TApp", "setupTimesAdapter: ${timesOfIntake.size}")
+
+        timeListAdapter = TimeListAdapter(timesOfIntake.toMutableList(), this)
         rvTimes.layoutManager = LinearLayoutManager(requireContext())
         rvTimes.adapter = timeListAdapter
+    }
+
+    private fun updateTimesAdapter(timesOfIntake: List<TimeOfIntake>) {
+        Log.d("TApp", "updateTimesAdapter: ${timeListAdapter.items.size}")
+
+        timeListAdapter.items.clear()
+        timeListAdapter.items.addAll(timesOfIntake)
+
+        Log.d("TApp", "updateTimesAdapter: ${timeListAdapter.items.size}")
+        timeListAdapter.notifyDataSetChanged()
     }
 
     override fun onDeleteItemClick(timeOfIntake: TimeOfIntake) {
@@ -243,10 +256,11 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
             bundle.getInt(TimePickerFragment.BUNDLE_KEY_MINUTE, 0),
             0
         )
+        c.set(Calendar.MILLISECOND, 0)
 
         viewModel.addTimeOfIntake(c.timeInMillis, procedure)
 
-        setupTimesAdapter(procedure?.timesOfIntake ?: emptyList())
+        updateTimesAdapter(procedure?.timesOfIntake ?: emptyList())
     }
 
     private fun onDateStartSet(key: String, bundle: BaseBundle) {
@@ -304,17 +318,11 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
     }
 
     private fun setupFieldFromDateStart() {
-        tvDateStart.text = "${format("dd.MM.yyyy", procedure?.startDate ?: 0)}"
+        tvDateStart.text = FormatHelper.getFormattedDate(procedure?.startDate ?: 0)
     }
 
     private fun setupFieldFromDateEnd() {
-        tvDateEnd.text = "${format("dd.MM.yyyy", procedure?.endDate ?: 0)}"
-    }
-
-    private fun getCalendarFromTimeInMillis(timeInMillis: Long) {
-        val c = Calendar.getInstance()
-
-        c.timeInMillis = timeInMillis
+        tvDateEnd.text = FormatHelper.getFormattedDate(procedure?.endDate ?: 0)
     }
 
     companion object {

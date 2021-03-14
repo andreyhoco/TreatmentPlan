@@ -13,7 +13,7 @@ class TimeViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     private val tvTime: TextView = itemView.findViewById(R.id.tv_time)
 
     fun bind(timeOfIntake: TimeOfIntake, timeItemClickListener: TimeItemClickListener) {
-        tvTime.text = "${String.format("hh:mm", timeOfIntake.timeOfTakes)}"
+        tvTime.text = FormatHelper.getFormattedTime(timeOfIntake.timeOfTakes)
 
         ibDelete.setOnClickListener { timeItemClickListener.onDeleteItemClick(timeOfIntake) }
     }

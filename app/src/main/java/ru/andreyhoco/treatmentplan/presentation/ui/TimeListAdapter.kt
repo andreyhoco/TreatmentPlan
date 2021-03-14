@@ -7,7 +7,7 @@ import ru.andreyhoco.treatmentplan.R
 import ru.andreyhoco.treatmentplan.repository.modelEntities.TimeOfIntake
 
 class TimeListAdapter(
-    var items: List<TimeOfIntake>,
+    var items: MutableList<TimeOfIntake>,
     private val timeItemClickListener: TimeItemClickListener
 ): RecyclerView.Adapter<TimeViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeViewHolder {
