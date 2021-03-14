@@ -19,8 +19,12 @@ class ProcedureGroupViewHolder(itemView: View): ProcedureItemViewHolder(itemView
     override fun bind(item: ProcedureListItem, procedureItemClickListener: ProcedureItemClickListener) {
         tvGroupHeader.text =
             if (item is ProcedureGroupItem) {
-                "${format("hh:mm", item.intakeProcedureTimeGroup.startTime)}" + " - " +
-                        "${format("hh:mm", item.intakeProcedureTimeGroup.endTime)}"
+                if (item.intakeProcedureTimeGroup.startTime == item.intakeProcedureTimeGroup.endTime) {
+                    FormatHelper.getFormattedTime(item.intakeProcedureTimeGroup.startTime)
+                } else {
+                    FormatHelper.getFormattedTime(item.intakeProcedureTimeGroup.startTime) + " - " +
+                            FormatHelper.getFormattedTime(item.intakeProcedureTimeGroup.endTime)
+                }
             } else {
                 ""
             }
