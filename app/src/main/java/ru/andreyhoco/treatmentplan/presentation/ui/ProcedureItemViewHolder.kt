@@ -37,8 +37,8 @@ class ProcedureViewHolder(itemView: View): ProcedureItemViewHolder(itemView) {
     override fun bind(item: ProcedureListItem, procedureItemClickListener: ProcedureItemClickListener) {
         if (item is ProcedureItem) {
             cbDone.isChecked = item.intakeProcedure.timeOfIntake.isDone
-            tvPerson.text = "${format("hh:mm", item.intakeProcedure.timeOfIntake.timeOfTakes)}: " +
-                    "${item.intakeProcedure.person.name}"
+            tvPerson.text = FormatHelper.getFormattedTime(item.intakeProcedure.timeOfIntake.timeOfTakes) +
+                    ": ${item.intakeProcedure.person.name}"
             tvProcedure.text = "${item.intakeProcedure.title}"
 
             itemView.setOnClickListener {

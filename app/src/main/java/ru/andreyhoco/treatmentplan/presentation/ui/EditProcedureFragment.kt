@@ -304,17 +304,11 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
     }
 
     private fun setupFieldFromDateStart() {
-        tvDateStart.text = "${format("dd.MM.yyyy", procedure?.startDate ?: 0)}"
+        tvDateStart.text = FormatHelper.getFormattedDate(procedure?.startDate ?: 0)
     }
 
     private fun setupFieldFromDateEnd() {
-        tvDateEnd.text = "${format("dd.MM.yyyy", procedure?.endDate ?: 0)}"
-    }
-
-    private fun getCalendarFromTimeInMillis(timeInMillis: Long) {
-        val c = Calendar.getInstance()
-
-        c.timeInMillis = timeInMillis
+        tvDateEnd.text = FormatHelper.getFormattedDate(procedure?.endDate ?: 0)
     }
 
     companion object {
