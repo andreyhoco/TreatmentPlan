@@ -8,9 +8,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.andreyhoco.treatmentplan.repository.ProcedureAndPersonRepository
+import ru.andreyhoco.treatmentplan.repository.modelEntities.IntakeProcedure
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Person
 import ru.andreyhoco.treatmentplan.repository.modelEntities.Procedure
 import ru.andreyhoco.treatmentplan.repository.modelEntities.TimeOfIntake
+import java.util.*
 
 class EditProcedureViewModel(
         private val repository: ProcedureAndPersonRepository
@@ -71,8 +73,24 @@ class EditProcedureViewModel(
 
     fun saveProcedure(procedure: Procedure?) {
         procedure?.let { proc ->
+            var time = proc.startDate
+            val newListOfIntakes = mutableListOf<TimeOfIntake>()
+            while (time < proc.endDate) {
+                proc.timesOfIntake.forEach { timeOfIntake ->
+                    newListOfIntakes.add(TimeOfIntake(time + timeOfIntake.timeOfTakes, false))
+                }
+                time += 86400000
+            }
+
+            proc.timesOfIntake = newListOfIntakes
             viewModelScope.launch {
-                repository.deleteProceduresByIds(proc.id)
+                val calendar = Calendar.getInstance()
+                proc.timesOfIntake.forEach {
+                    calendar.timeInMillis = it.timeOfTakes
+                    val intakeDate = calendar.time
+                    Log.d("SAVE","$intakeDate")
+                }
+
                 repository.insertProcedure(proc)
             }
         }

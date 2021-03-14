@@ -1,5 +1,6 @@
 package ru.andreyhoco.treatmentplan.presentation.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -27,13 +28,12 @@ class ProceduresListViewModel(
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.MONTH)
 
-        calendar.set(year, month, day, 0, 0, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
+//        calendar.set(year, month, day, 0, 0, 0)
+        calendar.timeInMillis = 0
 
-        val startOfCurrentDay = calendar.timeInMillis
+        val startOfCurrentDay = 0L
 
         calendar.set(year, month, day, 23, 59, 59)
-        calendar.set(Calendar.MILLISECOND, 999)
 
         val endOfCurrentDay = calendar.timeInMillis
 
@@ -41,6 +41,7 @@ class ProceduresListViewModel(
             repository
                 .getProcedureGroupsBetweenDates(startOfCurrentDay, endOfCurrentDay)
                 .collect { listOfIntakeProcedureTimeGroup ->
+                    Log.d("PROCEDURES", "$listOfIntakeProcedureTimeGroup")
                     onProceduresLoaded(listOfIntakeProcedureTimeGroup)
                 }
         }

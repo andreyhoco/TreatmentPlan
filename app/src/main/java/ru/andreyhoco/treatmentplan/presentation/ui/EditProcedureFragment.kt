@@ -168,9 +168,12 @@ class EditProcedureFragment : Fragment(), TimeItemClickListener {
 
         btnSave.setOnClickListener {
             viewModel.saveProcedure(procedure)
+
             if (parentFragmentManager.backStackEntryCount > 0) {
                 parentFragmentManager.popBackStack()
             }
+
+
         }
 
         etTitle.setOnFocusChangeListener { v, hasFocus ->
